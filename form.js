@@ -45,6 +45,18 @@
     }
   }
 
+  // Lien d'invitation HeyReach (créé par le robot après le formulaire de démarrage)
+  function showInvite(url, done) {
+    if (!url || !/^https:\/\//.test(url)) return;
+    const box = $("#invite-box");
+    if (box) { $("#invite-link").href = url; box.classList.remove("hidden"); }
+    if (done && $("#done-invite")) {
+      $("#done-invite-link").href = url;
+      $("#done-invite").classList.remove("hidden");
+      $("#done-noinvite").classList.add("hidden");
+    }
+  }
+
   function filled(el) {
     if (el.type === "checkbox") return el.checked;
     if (el.type === "radio") return !!form.querySelector(`input[name="${el.name}"]:checked`);
@@ -103,6 +115,7 @@
       if (j.prenom) document.querySelectorAll("[data-prenom]").forEach((el) => (el.textContent = " " + j.prenom));
       if (j.month) document.querySelectorAll("[data-month]").forEach((el) => (el.textContent = j.month));
       fill(j.answers);
+      showInvite(j.invite_url);
       try { fill(JSON.parse(localStorage.getItem(key) || "null")); } catch (_) { /* rien */ }
       progress();
     })
@@ -132,6 +145,7 @@
       .then(({ ok, j }) => {
         if (!ok) throw new Error(j.error || "erreur");
         try { localStorage.removeItem(key); } catch (_) { /* rien */ }
+        showInvite(j.invite_url, true);
         form.classList.add("hidden");
         $(".intro").classList.add("hidden");
         $("#done").classList.remove("hidden");

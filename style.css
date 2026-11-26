@@ -78,3 +78,6 @@ footer { text-align: center; color: var(--muted); font-size: 13px; padding: 10px
 figure { margin: 10px 0 6px; }
 figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; }
 main a { color: var(--navy-2); }
+a.btn { display: inline-block; margin: 8px 0 4px; padding: 12px 18px; border-radius: 12px; background: var(--navy); color: #fff; font-weight: 700; text-decoration: none; }
+a.btn:hover { background: var(--navy-2); }
+a.btn-light { background: #eef2f9; color: var(--navy); }

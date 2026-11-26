@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Agendo · Formulaire de démarrage</title>
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <header class="top"><div class="wrap"><div class="brand">Agendo<span>Démarrage</span></div><div class="progress" aria-hidden="true"><i></i></div></div></header>
@@ -138,9 +138,9 @@
 
     <section class="card">
       <h2>8. Connecter votre LinkedIn à notre outil</h2>
-      <p class="why">Vos campagnes tournent sur HeyReach, l'outil que nous utilisons. Vous y aurez votre propre espace, où vous verrez seulement vos campagnes. Vous connectez vous-même votre compte LinkedIn : nous ne voyons jamais votre mot de passe. Comptez 5 minutes, avec votre téléphone à portée de main. Vous ferez cette étape après avoir reçu l'invitation : gardez ce lien.</p>
+      <p class="why">Vos campagnes tournent sur HeyReach, l'outil que nous utilisons. Vous y aurez votre propre espace, où vous verrez seulement vos campagnes. Vous connectez vous-même votre compte LinkedIn : nous ne voyons jamais votre mot de passe. Comptez 5 minutes, avec votre téléphone à portée de main. Vous ferez cette étape juste après l'envoi du formulaire.</p>
       <ol class="steps">
-        <li><b>Acceptez l'invitation.</b> Dans les 24 heures, vous recevez un e-mail de HeyReach qui vous invite à rejoindre votre espace. Cliquez sur le lien et créez votre mot de passe HeyReach.</li>
+        <li><b>Créez votre accès HeyReach.</b> Dès l'envoi de ce formulaire, un bouton « Créer mon accès HeyReach » apparaît (et reste ici quand vous rouvrez ce lien). Cliquez dessus et créez votre mot de passe HeyReach.<div id="invite-box" class="hidden"><a class="btn" id="invite-link" href="#" target="_blank" rel="noopener">Créer mon accès HeyReach</a></div></li>
         <li><b>Ouvrez vos comptes LinkedIn.</b> Dans le menu de gauche, cliquez sur l'icône LinkedIn (« LinkedIn Accounts »), puis sur le bouton <b>« Connect account »</b> en haut à droite.
           <figure><img src="img/1-ajouter-compte.jpg?v=1" alt="Page LinkedIn Accounts de HeyReach, bouton Connect account en haut à droite" loading="lazy"></figure></li>
         <li><b>Choisissez « Credentials login »</b> (connexion par e-mail et mot de passe). N'utilisez pas « Connect with cookies » : cette connexion se coupe souvent et il faudrait la refaire chaque semaine.
@@ -177,10 +177,16 @@
   <div id="done" class="card done hidden">
     <div class="big">✅</div>
     <h1>Merci, c'est reçu !</h1>
-    <p class="intro">Nous préparons votre campagne à partir de vos réponses. Prochaine étape : dans les 24 heures, vous recevez l'invitation HeyReach par e-mail pour connecter votre LinkedIn (étape 8 du formulaire). Vous pouvez rouvrir ce lien à tout moment pour relire les étapes ou corriger une réponse.</p>
+    <p class="intro">Nous préparons votre campagne à partir de vos réponses.</p>
+    <div id="done-invite" class="hidden">
+      <p class="intro"><b>Dernière étape (5 minutes) :</b> créez votre accès HeyReach, puis connectez votre LinkedIn en suivant le guide.</p>
+      <p><a class="btn" id="done-invite-link" href="#" target="_blank" rel="noopener">1. Créer mon accès HeyReach</a></p>
+      <p><a class="btn btn-light" href="connecter-linkedin.html" target="_blank" rel="noopener">2. Voir le guide pour connecter mon LinkedIn</a></p>
+    </div>
+    <p class="intro" id="done-noinvite">Prochaine étape : dans les 24 heures, vous recevez votre accès HeyReach pour connecter votre LinkedIn (étape 8 du formulaire). Vous pouvez rouvrir ce lien à tout moment pour relire les étapes ou corriger une réponse.</p>
   </div>
 </main>
 <footer>Agendo · Prospection LinkedIn pour dirigeants</footer>
-<script src="form.js?v=5"></script>
+<script src="form.js?v=6"></script>
 </body>
 </html>
