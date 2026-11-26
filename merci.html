@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Agendo · Merci et bienvenue</title>
+<link rel="stylesheet" href="style.css?v=8">
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="brand">Agendo</div></div></header>
+<main>
+  <div class="card done">
+    <div class="big">🎉</div>
+    <h1>Merci<span id="prenom"></span>, et bienvenue chez Agendo !</h1>
+    <p class="intro">Votre paiement est bien reçu. Nous sommes ravis de vous accompagner.</p>
+    <p class="intro">Dans quelques minutes, vous recevez un e-mail de <b>agendo.prospection@gmail.com</b> avec tout ce qu'il faut pour démarrer : votre formulaire de démarrage, l'accès à notre outil pour connecter votre LinkedIn, et le formulaire de vos posts du mois.</p>
+    <p class="intro">Vous ne le voyez pas ? Regardez dans vos courriers indésirables ou l'onglet « Promotions », puis marquez-le comme « non indésirable » pour que les liens fonctionnent.</p>
+    <p class="intro">Vous recevez aussi le reçu de votre paiement par Stripe, dans un e-mail séparé.</p>
+  </div>
+</main>
+<footer>Agendo · Prospection LinkedIn pour dirigeants</footer>
+<script>
+  const p = new URLSearchParams(location.search).get("prenom");
+  if (p && /^[\p{L}' -]{1,40}$/u.test(p)) document.getElementById("prenom").textContent = " " + p;
+</script>
+</body>
+</html>
