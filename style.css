@@ -75,3 +75,6 @@ footer { text-align: center; color: var(--muted); font-size: 13px; padding: 10px
   .card { padding: 18px 15px; }
   .progress { flex-basis: 80px; }
 }
+figure { margin: 10px 0 6px; }
+figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; }
+main a { color: var(--navy-2); }
