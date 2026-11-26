@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Agendo · Formulaire de démarrage</title>
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 <header class="top"><div class="wrap"><div class="brand">Agendo<span>Démarrage</span></div><div class="progress" aria-hidden="true"><i></i></div></div></header>
@@ -106,6 +106,25 @@
           <label><input type="radio" name="sales_nav" value="Non"> Non</label>
           <label><input type="radio" name="sales_nav" value="Je ne sais pas"> Je ne sais pas</label>
         </div></div>
+      <div class="field"><label class="q">Depuis quand avez-vous ce compte LinkedIn ? <span class="req">*</span></label>
+        <div class="choices">
+          <label><input type="radio" name="anciennete" value="Moins de 3 mois" required> Moins de 3 mois</label>
+          <label><input type="radio" name="anciennete" value="3 à 12 mois"> 3 à 12 mois</label>
+          <label><input type="radio" name="anciennete" value="Plus d'un an"> Plus d'un an</label>
+        </div></div>
+      <div class="field"><label class="q">Combien de relations avez-vous environ ?</label>
+        <div class="choices">
+          <label><input type="radio" name="relations" value="Moins de 100"> Moins de 100</label>
+          <label><input type="radio" name="relations" value="100 à 500"> 100 à 500</label>
+          <label><input type="radio" name="relations" value="Plus de 500"> Plus de 500</label>
+        </div></div>
+      <div class="field"><label class="q">À quelle fréquence utilisez-vous LinkedIn ?</label>
+        <div class="choices">
+          <label><input type="radio" name="usage" value="Presque jamais"> Presque jamais</label>
+          <label><input type="radio" name="usage" value="Quelques fois par mois"> Quelques fois par mois</label>
+          <label><input type="radio" name="usage" value="Chaque semaine ou plus"> Chaque semaine ou plus</label>
+        </div></div>
+      <div class="field"><label class="q" for="outils_linkedin">Utilisez-vous des extensions ou des outils connectés à LinkedIn ?<span class="hint">Exemple : Waalaxy, Lemlist, Kaspr, Lusha, une extension Chrome. Ils peuvent faire bloquer votre compte : nous vous dirons lesquels retirer avant de commencer.</span></label><input id="outils_linkedin" name="outils_linkedin" type="text" placeholder="Aucun, ou lesquels"></div>
       <div class="field"><label class="q" for="invitations_main">Combien d'invitations envoyez-vous vous-même par semaine ?<span class="hint">Pendant la campagne, il faudra arrêter de le faire, pour protéger votre compte.</span></label><input id="invitations_main" name="invitations_main" type="text"></div>
     </section>
 
@@ -162,6 +181,6 @@
   </div>
 </main>
 <footer>Agendo · Prospection LinkedIn pour dirigeants</footer>
-<script src="form.js?v=4"></script>
+<script src="form.js?v=5"></script>
 </body>
 </html>

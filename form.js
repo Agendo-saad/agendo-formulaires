@@ -45,9 +45,15 @@
     }
   }
 
+  function filled(el) {
+    if (el.type === "checkbox") return el.checked;
+    if (el.type === "radio") return !!form.querySelector(`input[name="${el.name}"]:checked`);
+    return el.value.trim() !== "";
+  }
+
   function progress() {
     const req = [...form.querySelectorAll("[required]")];
-    const okCount = req.filter((el) => (el.type === "checkbox" ? el.checked : el.value.trim() !== "")).length;
+    const okCount = req.filter(filled).length;
     $(".progress i").style.width = (req.length ? Math.round((okCount / req.length) * 100) : 0) + "%";
   }
 
@@ -108,7 +114,7 @@
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     errBox.classList.add("hidden");
-    const missing = [...form.querySelectorAll("[required]")].find((el) => (el.type === "checkbox" ? !el.checked : !el.value.trim()));
+    const missing = [...form.querySelectorAll("[required]")].find((el) => !filled(el));
     if (missing) {
       missing.focus();
       showError("Il manque une réponse obligatoire (marquée d'un *).");
