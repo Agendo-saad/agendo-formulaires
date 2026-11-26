@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Agendo · Formulaire de démarrage</title>
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 <header class="top"><div class="wrap"><div class="brand">Agendo<span>Démarrage</span></div><div class="progress" aria-hidden="true"><i></i></div></div></header>
 <main>
   <h1>Bienvenue<span data-prenom></span> !</h1>
-  <p class="intro">Ce formulaire nous permet de lancer votre prospection LinkedIn avec les bons messages, la bonne cible et vos vraies réponses. Comptez 15 minutes. Vos réponses sont gardées sur cet appareil au fur et à mesure : vous pouvez faire une pause et revenir plus tard avec le même lien. Plus vous êtes précis, meilleurs seront les résultats.</p>
+  <p class="intro">Ce formulaire nous permet de lancer votre prospection LinkedIn avec les bons messages, la bonne cible et vos vraies réponses. Comptez 10 à 15 minutes. Vos réponses sont gardées sur cet appareil au fur et à mesure : vous pouvez faire une pause et revenir plus tard avec le même lien. Plus vous êtes précis, meilleurs seront les résultats.</p>
   <div id="error" class="msg err hidden" role="alert"></div>
 
   <form data-form="demarrage" novalidate>
@@ -94,12 +94,10 @@
           <label><input type="radio" name="ton" value="Vouvoiement, formel"> Formel</label>
         </div></div>
       <div class="field"><label class="q" for="a_eviter">Mots, sujets ou promesses à éviter</label><textarea id="a_eviter" name="a_eviter" style="min-height:70px"></textarea></div>
-      <div class="field"><label class="q" for="sujets_sensibles">Les sujets que vous voulez toujours traiter vous-même<span class="hint">Nous vous les transmettons sans répondre. Les questions de prix et les plaintes vous sont toujours transmises.</span></label><textarea id="sujets_sensibles" name="sujets_sensibles" style="min-height:70px"></textarea></div>
     </section>
 
     <section class="card">
       <h2>6. Votre compte LinkedIn</h2>
-      <div class="field"><label class="q" for="profil_url">Le lien de votre profil LinkedIn <span class="req">*</span></label><input id="profil_url" name="profil_url" type="url" required placeholder="https://www.linkedin.com/in/…"></div>
       <div class="field"><label class="q">Avez-vous LinkedIn Sales Navigator ?</label>
         <div class="choices">
           <label><input type="radio" name="sales_nav" value="Oui"> Oui</label>
@@ -124,7 +122,7 @@
           <label><input type="radio" name="usage" value="Quelques fois par mois"> Quelques fois par mois</label>
           <label><input type="radio" name="usage" value="Chaque semaine ou plus"> Chaque semaine ou plus</label>
         </div></div>
-      <div class="field"><label class="q" for="outils_linkedin">Utilisez-vous des extensions ou des outils connectés à LinkedIn ?<span class="hint">Exemple : Waalaxy, Lemlist, Kaspr, Lusha, une extension Chrome. Ils peuvent faire bloquer votre compte : nous vous dirons lesquels retirer avant de commencer.</span></label><input id="outils_linkedin" name="outils_linkedin" type="text" placeholder="Aucun, ou lesquels"></div>
+      <div class="field"><label class="q" for="outils_linkedin">Utilisez-vous des extensions ou des outils connectés à LinkedIn ?<span class="hint">Exemple : Waalaxy, Lemlist, Kaspr, Lusha, une extension Chrome. Ils peuvent faire bloquer votre compte. Si vous en utilisez, nous vous envoyons tout de suite par e-mail comment les retirer avant de commencer.</span></label><input id="outils_linkedin" name="outils_linkedin" type="text" placeholder="Aucun, ou lesquels"></div>
       <div class="field"><label class="q" for="invitations_main">Combien d'invitations envoyez-vous vous-même par semaine ?<span class="hint">Pendant la campagne, il faudra arrêter de le faire, pour protéger votre compte.</span></label><input id="invitations_main" name="invitations_main" type="text"></div>
     </section>
 
@@ -137,31 +135,7 @@
     </section>
 
     <section class="card">
-      <h2>8. Connecter votre LinkedIn à notre outil</h2>
-      <p class="why">Vos campagnes tournent sur HeyReach, l'outil que nous utilisons. Vous y aurez votre propre espace, où vous verrez seulement vos campagnes. Vous connectez vous-même votre compte LinkedIn : nous ne voyons jamais votre mot de passe. Comptez 5 minutes, avec votre téléphone à portée de main. Vous ferez cette étape juste après l'envoi du formulaire.</p>
-      <ol class="steps">
-        <li><b>Créez votre accès HeyReach.</b> Dès l'envoi de ce formulaire, un bouton « Créer mon accès HeyReach » apparaît (et reste ici quand vous rouvrez ce lien). Cliquez dessus et créez votre mot de passe HeyReach.<div id="invite-box" class="hidden"><a class="btn" id="invite-link" href="#" target="_blank" rel="noopener">Créer mon accès HeyReach</a></div></li>
-        <li><b>Ouvrez vos comptes LinkedIn.</b> Dans le menu de gauche, cliquez sur l'icône LinkedIn (« LinkedIn Accounts »), puis sur le bouton <b>« Connect account »</b> en haut à droite.
-          <figure><img src="img/1-ajouter-compte.jpg?v=1" alt="Page LinkedIn Accounts de HeyReach, bouton Connect account en haut à droite" loading="lazy"></figure></li>
-        <li><b>Choisissez « Credentials login »</b> (connexion par e-mail et mot de passe). N'utilisez pas « Connect with cookies » : cette connexion se coupe souvent et il faudrait la refaire chaque semaine.
-          <figure><img src="img/2-credentials.jpg?v=1" alt="Fenêtre Connect a LinkedIn account, option Credentials login" loading="lazy"></figure></li>
-        <li><b>Entrez l'e-mail et le mot de passe de votre compte LinkedIn.</b> Laissez « Keep me connected forever » désactivé, puis cliquez sur <b>« Next »</b>. Vos identifiants sont chiffrés : personne chez Agendo ne les voit.
-          <figure><img src="img/3-identifiants.jpg?v=1" alt="Champs LinkedIn Email et LinkedIn Password" loading="lazy"></figure></li>
-        <li><b>Réglez vos préférences.</b> Choisissez <b>« Keep it private »</b> : seules les conversations de vos campagnes sont importées, vos messages personnels restent privés. Dans <b>« HeyReach proxy »</b>, choisissez le pays où vous vous connectez d'habitude (France si vous êtes en France). Cliquez sur <b>« Connect account »</b>.
-          <figure><img src="img/4-preferences.jpg?v=1" alt="Écran Preferences : Keep it private, HeyReach proxy, pays, Connect account" loading="lazy"></figure></li>
-        <li><b>Entrez le code de LinkedIn.</b> Après quelques minutes, le statut affiche « PIN Required » : cliquez sur <b>« Enter PIN »</b>.
-          <figure><img src="img/5-pin-requis.jpg?v=1" alt="Statut PIN Required et bouton Enter PIN" loading="lazy"></figure>
-          Tapez le code à 6 chiffres que LinkedIn vous envoie par e-mail, SMS ou application (valable 15 minutes), puis cliquez sur <b>« Verify PIN »</b>.
-          <figure><img src="img/6-code-pin.jpg?v=1" alt="Fenêtre LinkedIn PIN verification avec 6 cases" loading="lazy"></figure></li>
-        <li><b>C'est terminé</b> quand le statut affiche <b>« Available »</b> (jusqu'à 15 minutes). Nous sommes prévenus et préparons votre campagne.
-          <figure><img src="img/7-available.jpg?v=1" alt="Statut Available" loading="lazy"></figure></li>
-      </ol>
-      <p class="why">Pendant toute la campagne : ne vous déconnectez pas de LinkedIn sur vos appareils, n'utilisez pas d'autre outil d'automatisation, et n'envoyez jamais votre mot de passe ou un code LinkedIn à qui que ce soit, nous compris.</p>
-      <p class="why">Ce guide est aussi disponible ici : <a href="connecter-linkedin.html" target="_blank">guide illustré pour connecter votre LinkedIn</a>.</p>
-    </section>
-
-    <section class="card">
-      <h2>9. Pour finir</h2>
+      <h2>8. Pour finir</h2>
       <div class="field"><label class="q" for="remarques">Autre chose à nous dire ?</label><textarea id="remarques" name="remarques" style="min-height:70px"></textarea></div>
       <div class="field check"><input id="accord_ia" name="accord_ia" type="checkbox" data-bool required><label for="accord_ia">J'ai compris que les réponses à mes prospects sont préparées avec l'aide d'une intelligence artificielle, et relues selon les règles convenues avec Agendo. <span class="req">*</span></label></div>
       <div class="field check"><input id="accord_rgpd" name="accord_rgpd" type="checkbox" data-bool required><label for="accord_rgpd">J'accepte qu'Agendo utilise ces informations pour gérer ma prospection. Les personnes qui demandent à ne plus être contactées ne le seront plus. <span class="req">*</span></label></div>
@@ -177,15 +151,10 @@
     <div class="big">✅</div>
     <h1>Merci, c'est reçu !</h1>
     <p class="intro">Nous préparons votre campagne à partir de vos réponses.</p>
-    <div id="done-invite" class="hidden">
-      <p class="intro"><b>Dernière étape (5 minutes) :</b> créez votre accès HeyReach, puis connectez votre LinkedIn en suivant le guide.</p>
-      <p><a class="btn" id="done-invite-link" href="#" target="_blank" rel="noopener">1. Créer mon accès HeyReach</a></p>
-      <p><a class="btn btn-light" href="connecter-linkedin.html" target="_blank" rel="noopener">2. Voir le guide pour connecter mon LinkedIn</a></p>
-    </div>
-    <p class="intro" id="done-noinvite">Prochaine étape : dans les 24 heures, vous recevez votre accès HeyReach pour connecter votre LinkedIn (étape 8 du formulaire). Vous pouvez rouvrir ce lien à tout moment pour relire les étapes ou corriger une réponse.</p>
+    <p class="intro" id="done-noinvite">Prochaine étape : dans votre e-mail de bienvenue, cliquez sur « Créer mon accès HeyReach » et connectez votre LinkedIn en suivant le guide (5 minutes). Vous pouvez rouvrir ce formulaire à tout moment pour corriger une réponse.</p>
   </div>
 </main>
 <footer>Agendo · Prospection LinkedIn pour dirigeants</footer>
-<script src="form.js?v=9"></script>
+<script src="form.js?v=10"></script>
 </body>
 </html>
