@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Agendo · Vos posts du mois</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="brand">Agendo<span>Posts du mois</span></div><div class="progress" aria-hidden="true"><i></i></div></div></header>
+<main>
+  <h1>Vos posts de <span data-month>ce mois</span></h1>
+  <p class="intro">Donnez-nous de quoi écrire vos posts LinkedIn. Quelques lignes par question suffisent, et vous pouvez sauter celles qui ne vous concernent pas. Comptez 10 minutes. Nous rédigeons ensuite vos posts et vous les envoyons pour validation.</p>
+  <div id="error" class="msg err hidden" role="alert"></div>
+
+  <form data-form="contenu" novalidate>
+    <section class="card">
+      <h2>1. Vos résultats du mois</h2>
+      <p class="why">Pour mesurer ce que la prospection vous apporte vraiment.</p>
+      <div class="field"><label class="q" for="rdv_tenus">Combien de rendez-vous venus de LinkedIn ont vraiment eu lieu ce mois-ci ? <span class="req">*</span><span class="hint">Seulement ceux où la personne était présente.</span></label><input id="rdv_tenus" name="rdv_tenus" type="number" min="0" step="1" inputmode="numeric" required></div>
+      <div class="field"><label class="q" for="nouveaux_clients">Combien sont devenus clients (ou sont en bonne voie) ?</label><input id="nouveaux_clients" name="nouveaux_clients" type="number" min="0" step="1" inputmode="numeric"></div>
+      <div class="field"><label class="q" for="qualite_rdv">Ces rendez-vous étaient-ils de bonne qualité ? Qu'est-ce qui manquait ?</label><textarea id="qualite_rdv" name="qualite_rdv" style="min-height:70px"></textarea></div>
+    </section>
+
+    <section class="card">
+      <h2>2. Vos actualités</h2>
+      <div class="field"><label class="q" for="actualites">Ce qui s'est passé chez vous ce mois-ci<span class="hint">Nouveau client, projet terminé, recrutement, événement, nouvelle offre…</span></label><textarea id="actualites" name="actualites"></textarea></div>
+      <div class="field"><label class="q" for="cas_client">Un résultat ou une histoire client à raconter<span class="hint">Le problème de départ, ce que vous avez fait, le résultat (avec chiffres si possible). Dites-nous si le nom du client peut être cité.</span></label><textarea id="cas_client" name="cas_client"></textarea></div>
+      <div class="field"><label class="q" for="dates">Des dates à venir<span class="hint">Salon, webinaire, congés, lancement.</span></label><input id="dates" name="dates" type="text"></div>
+    </section>
+
+    <section class="card">
+      <h2>3. Vos idées et votre expertise</h2>
+      <div class="field"><label class="q" for="sujets">Les sujets dont vous voulez parler ce mois-ci</label><textarea id="sujets" name="sujets" style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q" for="conseils">Un conseil que vous donnez souvent à vos clients</label><textarea id="conseils" name="conseils" style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q" for="opinion">Une idée reçue de votre métier avec laquelle vous n'êtes pas d'accord</label><textarea id="opinion" name="opinion" style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q" for="questions_clients">Les questions que vos clients vous ont posées ce mois-ci</label><textarea id="questions_clients" name="questions_clients" style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q" for="medias">Des photos ou documents à utiliser<span class="hint">Collez un lien Google Drive, Dropbox ou WeTransfer.</span></label><input id="medias" name="medias" type="url" placeholder="https://"></div>
+      <div class="field"><label class="q" for="a_eviter">À éviter ce mois-ci</label><input id="a_eviter" name="a_eviter" type="text"></div>
+    </section>
+
+    <section class="card">
+      <h2>4. Votre avis sur notre travail</h2>
+      <div class="field"><label class="q">Êtes-vous satisfait de notre accompagnement ce mois-ci ?</label>
+        <div class="choices">
+          <label><input type="radio" name="satisfaction" value="5"> Très satisfait</label>
+          <label><input type="radio" name="satisfaction" value="4"> Satisfait</label>
+          <label><input type="radio" name="satisfaction" value="3"> Moyen</label>
+          <label><input type="radio" name="satisfaction" value="2"> Peu satisfait</label>
+          <label><input type="radio" name="satisfaction" value="1"> Pas satisfait</label>
+        </div></div>
+      <div class="field"><label class="q" for="commentaire">Qu'est-ce qu'on peut améliorer ?</label><textarea id="commentaire" name="commentaire" style="min-height:70px"></textarea></div>
+    </section>
+
+    <div class="actions">
+      <button class="send" type="submit">Envoyer mes réponses</button>
+      <div class="saved" id="saved"></div>
+    </div>
+  </form>
+
+  <div id="done" class="card done hidden">
+    <div class="big">✅</div>
+    <h1>Merci, c'est reçu !</h1>
+    <p class="intro">Nous rédigeons vos posts et vous les envoyons pour validation dans les prochains jours.</p>
+  </div>
+</main>
+<footer>Agendo · Prospection LinkedIn pour dirigeants</footer>
+<script src="form.js"></script>
+</body>
+</html>

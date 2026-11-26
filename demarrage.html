@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Agendo · Formulaire de démarrage</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="brand">Agendo<span>Démarrage</span></div><div class="progress" aria-hidden="true"><i></i></div></div></header>
+<main>
+  <h1>Bienvenue<span data-prenom></span> !</h1>
+  <p class="intro">Ce formulaire nous permet de lancer votre prospection LinkedIn avec les bons messages, la bonne cible et vos vraies réponses. Comptez 15 minutes. Vos réponses sont gardées sur cet appareil au fur et à mesure : vous pouvez faire une pause et revenir plus tard avec le même lien. Plus vous êtes précis, meilleurs seront les résultats.</p>
+  <div id="error" class="msg err hidden" role="alert"></div>
+
+  <form data-form="demarrage" novalidate>
+    <section class="card">
+      <h2>1. Vous et votre entreprise</h2>
+      <p class="why">Pour vous présenter correctement auprès de vos prospects.</p>
+      <div class="field"><label class="q" for="nom">Prénom et nom <span class="req">*</span></label><input id="nom" name="nom" type="text" required autocomplete="name"></div>
+      <div class="field"><label class="q" for="entreprise">Nom de l'entreprise <span class="req">*</span></label><input id="entreprise" name="entreprise" type="text" required autocomplete="organization"></div>
+      <div class="field"><label class="q" for="votre_secteur">Votre secteur d'activité <span class="req">*</span><span class="hint">Exemple : cabinet d'expertise comptable, agence web, conseil en recrutement.</span></label><input id="votre_secteur" name="votre_secteur" type="text" required></div>
+      <div class="field"><label class="q" for="site">Site web</label><input id="site" name="site" type="url" placeholder="https://"></div>
+      <div class="field"><label class="q" for="email">E-mail <span class="req">*</span></label><input id="email" name="email" type="email" required autocomplete="email"></div>
+      <div class="field"><label class="q" for="telephone">Téléphone</label><input id="telephone" name="telephone" type="tel" autocomplete="tel"></div>
+      <div class="field"><label class="q" for="signature">Prénom qui signe les messages LinkedIn <span class="req">*</span><span class="hint">En général le vôtre, puisque les messages partent de votre profil.</span></label><input id="signature" name="signature" type="text" required></div>
+      <div class="field"><label class="q" for="fuseau">Votre fuseau horaire</label>
+        <select id="fuseau" name="fuseau">
+          <option value="Europe/Paris" selected>France, Belgique, Suisse (heure de Paris)</option>
+          <option value="America/Toronto">Québec, Ontario (heure de l'Est)</option>
+          <option value="Africa/Casablanca">Maroc</option>
+          <option value="Africa/Abidjan">Afrique de l'Ouest (GMT)</option>
+          <option value="Indian/Reunion">La Réunion</option>
+          <option value="Other">Autre (précisez dans les remarques)</option>
+        </select></div>
+    </section>
+
+    <section class="card">
+      <h2>2. Votre offre</h2>
+      <p class="why">Nos messages ne décrivent votre offre qu'à partir de ce que vous écrivez ici. Rien n'est inventé.</p>
+      <div class="field"><label class="q" for="offre_courte">Ce que vous vendez, en une phrase <span class="req">*</span><span class="hint">Exemple : « J'aide les PME industrielles à réduire leurs délais de recrutement à moins de 30 jours. »</span></label><textarea id="offre_courte" name="offre_courte" required style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q" for="offre_detail">Votre offre en détail <span class="req">*</span><span class="hint">Ce qui est inclus, comment ça se passe, combien de temps ça dure.</span></label><textarea id="offre_detail" name="offre_detail" required></textarea></div>
+      <div class="field"><label class="q" for="qui_fait_quoi">Qui fait quoi chez vous ?<span class="hint">Qui fait le premier rendez-vous, qui livre le travail.</span></label><textarea id="qui_fait_quoi" name="qui_fait_quoi" style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q" for="difference">Ce qui vous différencie de vos concurrents</label><textarea id="difference" name="difference"></textarea></div>
+      <div class="field"><label class="q" for="garantie">Avez-vous une garantie ? Laquelle ?</label><input id="garantie" name="garantie" type="text"></div>
+      <div class="field"><label class="q" for="prix">Vos prix<span class="hint">Pour notre information. Ils ne seront jamais donnés à un prospect sans votre accord.</span></label><textarea id="prix" name="prix" style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q">Si un prospect demande le prix sur LinkedIn <span class="req">*</span></label>
+        <div class="choices">
+          <label><input type="radio" name="prix_politique" value="call" checked> On ne donne pas le prix, on propose un appel</label>
+          <label><input type="radio" name="prix_politique" value="share"> On peut donner le prix ou une fourchette</label>
+        </div></div>
+    </section>
+
+    <section class="card">
+      <h2>3. Vos clients idéaux</h2>
+      <p class="why">C'est la partie la plus importante : elle décide qui nous allons contacter.</p>
+      <div class="field"><label class="q" for="postes">Quels postes contacter ? <span class="req">*</span><span class="hint">Exemple : dirigeant, gérant, directeur commercial, DRH.</span></label><input id="postes" name="postes" type="text" required></div>
+      <div class="field"><label class="q" for="secteurs">Dans quels secteurs ? <span class="req">*</span></label><textarea id="secteurs" name="secteurs" required style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q">Taille des entreprises <span class="req">*</span></label>
+        <div class="choices">
+          <label><input type="checkbox" name="tailles" value="1 à 10 salariés"> 1 à 10</label>
+          <label><input type="checkbox" name="tailles" value="11 à 50 salariés"> 11 à 50</label>
+          <label><input type="checkbox" name="tailles" value="51 à 200 salariés"> 51 à 200</label>
+          <label><input type="checkbox" name="tailles" value="201 à 500 salariés"> 201 à 500</label>
+          <label><input type="checkbox" name="tailles" value="Plus de 500 salariés"> Plus de 500</label>
+        </div></div>
+      <div class="field"><label class="q" for="zones">Zones géographiques <span class="req">*</span><span class="hint">Exemple : toute la France, Île-de-France et Lyon, France et Belgique.</span></label><input id="zones" name="zones" type="text" required></div>
+      <div class="field"><label class="q" for="probleme">Le problème principal que vous réglez pour eux <span class="req">*</span><span class="hint">Avec les mots qu'ils utilisent eux-mêmes.</span></label><textarea id="probleme" name="probleme" required></textarea></div>
+      <div class="field"><label class="q" for="exemples_clients">2 ou 3 exemples de clients idéaux<span class="hint">Le nom d'une entreprise ou le lien d'un profil LinkedIn qui ressemble à votre client parfait.</span></label><textarea id="exemples_clients" name="exemples_clients" style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q" for="exclusions">Qui ne faut-il surtout pas contacter ?<span class="hint">Vos clients actuels, vos partenaires, des concurrents, certains secteurs.</span></label><textarea id="exclusions" name="exclusions" style="min-height:70px"></textarea></div>
+    </section>
+
+    <section class="card">
+      <h2>4. Vos rendez-vous</h2>
+      <p class="why">Les prospects intéressés réservent directement dans votre agenda.</p>
+      <div class="field"><label class="q" for="lien_reservation">Votre lien de réservation <span class="req">*</span><span class="hint">Calendly, Google Agenda ou autre.</span></label><input id="lien_reservation" name="lien_reservation" type="url" required placeholder="https://"></div>
+      <div class="field"><label class="q" for="bon_rdv">Pour vous, c'est quoi un bon rendez-vous ? <span class="req">*</span><span class="hint">Exemple : un dirigeant de plus de 10 salariés qui a un projet dans les 3 mois.</span></label><textarea id="bon_rdv" name="bon_rdv" required></textarea></div>
+      <div class="field"><label class="q" for="questions_qualif">2 à 4 questions à poser avant le rendez-vous<span class="hint">Vous pouvez aussi les mettre dans votre page de réservation.</span></label><textarea id="questions_qualif" name="questions_qualif" style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q" for="disponibilites">Vos disponibilités habituelles</label><input id="disponibilites" name="disponibilites" type="text" placeholder="Exemple : du mardi au jeudi, 9 h - 12 h"></div>
+      <div class="field"><label class="q" for="duree_rdv">Durée d'un premier rendez-vous</label><input id="duree_rdv" name="duree_rdv" type="text" placeholder="Exemple : 30 minutes en visio"></div>
+    </section>
+
+    <section class="card">
+      <h2>5. Pour répondre à vos prospects</h2>
+      <p class="why">Nous répondons en votre nom. Vos réponses ici évitent les approximations.</p>
+      <div class="field"><label class="q" for="faq">Les questions qu'on vous pose souvent, et vos réponses</label><textarea id="faq" name="faq"></textarea></div>
+      <div class="field"><label class="q" for="objections">Les objections fréquentes, et ce que vous répondez<span class="hint">Exemple : « C'est trop cher » → ce que vous dites en général.</span></label><textarea id="objections" name="objections"></textarea></div>
+      <div class="field"><label class="q" for="cas_clients">Vos résultats clients que l'on peut citer<span class="hint">Avec des chiffres si possible, et seulement ceux que vous nous autorisez à mentionner.</span></label><textarea id="cas_clients" name="cas_clients"></textarea></div>
+      <div class="field"><label class="q">Le ton de vos messages</label>
+        <div class="choices">
+          <label><input type="radio" name="ton" value="Vouvoiement, professionnel et chaleureux" checked> Professionnel et chaleureux</label>
+          <label><input type="radio" name="ton" value="Vouvoiement, direct et concis"> Direct et concis</label>
+          <label><input type="radio" name="ton" value="Vouvoiement, formel"> Formel</label>
+        </div></div>
+      <div class="field"><label class="q" for="a_eviter">Mots, sujets ou promesses à éviter</label><textarea id="a_eviter" name="a_eviter" style="min-height:70px"></textarea></div>
+      <div class="field"><label class="q" for="sujets_sensibles">Les sujets que vous voulez toujours traiter vous-même<span class="hint">Nous vous les transmettons sans répondre. Les questions de prix et les plaintes vous sont toujours transmises.</span></label><textarea id="sujets_sensibles" name="sujets_sensibles" style="min-height:70px"></textarea></div>
+    </section>
+
+    <section class="card">
+      <h2>6. Votre compte LinkedIn</h2>
+      <div class="field"><label class="q" for="profil_url">Le lien de votre profil LinkedIn <span class="req">*</span></label><input id="profil_url" name="profil_url" type="url" required placeholder="https://www.linkedin.com/in/…"></div>
+      <div class="field"><label class="q">Avez-vous LinkedIn Sales Navigator ?</label>
+        <div class="choices">
+          <label><input type="radio" name="sales_nav" value="Oui"> Oui</label>
+          <label><input type="radio" name="sales_nav" value="Non"> Non</label>
+          <label><input type="radio" name="sales_nav" value="Je ne sais pas"> Je ne sais pas</label>
+        </div></div>
+      <div class="field"><label class="q" for="invitations_main">Combien d'invitations envoyez-vous vous-même par semaine ?<span class="hint">Pendant la campagne, il faudra arrêter de le faire, pour protéger votre compte.</span></label><input id="invitations_main" name="invitations_main" type="text"></div>
+    </section>
+
+    <section class="card">
+      <h2>7. Vos posts LinkedIn</h2>
+      <p class="why">Nous écrivons vos posts chaque mois. Chaque mois, vous recevrez aussi un court formulaire pour nous donner vos actualités.</p>
+      <div class="field"><label class="q" for="sujets_posts">Les sujets dont vous aimez parler</label><textarea id="sujets_posts" name="sujets_posts"></textarea></div>
+      <div class="field"><label class="q" for="ton_posts">Le style de vos posts<span class="hint">Exemple : pédagogique, avec des anecdotes, sans jargon.</span></label><input id="ton_posts" name="ton_posts" type="text"></div>
+      <div class="field"><label class="q" for="exemples_posts">Des posts que vous aimez (les vôtres ou d'autres)<span class="hint">Collez un lien ou le texte.</span></label><textarea id="exemples_posts" name="exemples_posts" style="min-height:70px"></textarea></div>
+    </section>
+
+    <section class="card">
+      <h2>8. Pour finir</h2>
+      <div class="field"><label class="q" for="remarques">Autre chose à nous dire ?</label><textarea id="remarques" name="remarques" style="min-height:70px"></textarea></div>
+      <div class="field check"><input id="accord_ia" name="accord_ia" type="checkbox" data-bool required><label for="accord_ia">J'ai compris que les réponses à mes prospects sont préparées avec l'aide d'une intelligence artificielle, et relues selon les règles convenues avec Agendo. <span class="req">*</span></label></div>
+      <div class="field check"><input id="accord_rgpd" name="accord_rgpd" type="checkbox" data-bool required><label for="accord_rgpd">J'accepte qu'Agendo utilise ces informations pour gérer ma prospection. Les personnes qui demandent à ne plus être contactées ne le seront plus. <span class="req">*</span></label></div>
+    </section>
+
+    <div class="actions">
+      <button class="send" type="submit">Envoyer mes réponses</button>
+      <div class="saved" id="saved"></div>
+    </div>
+  </form>
+
+  <div id="done" class="card done hidden">
+    <div class="big">✅</div>
+    <h1>Merci, c'est reçu !</h1>
+    <p class="intro">Nous préparons votre campagne à partir de vos réponses. Vous pouvez rouvrir ce lien à tout moment pour corriger une réponse.</p>
+  </div>
+</main>
+<footer>Agendo · Prospection LinkedIn pour dirigeants</footer>
+<script src="form.js"></script>
+</body>
+</html>
