@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Agendo</title>
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 <header class="top"><div class="wrap"><div class="brand">Agendo</div></div></header>
 <main>
   <h1>Formulaires clients Agendo</h1>
   <p class="intro">Utilisez le lien personnel que vous avez reçu par e-mail.</p>
+  <p class="intro" id="attente" style="display:none">Votre paiement est en cours de validation (cela peut prendre quelques minutes, par exemple pour un prélèvement SEPA). Vous recevrez votre lien de démarrage dès qu'il sera confirmé.</p>
+  <script>if (new URLSearchParams(location.search).get("paiement") === "en-attente") document.getElementById("attente").style.display = "block";</script>
 </main>
 </body>
 </html>

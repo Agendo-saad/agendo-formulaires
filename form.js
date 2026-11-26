@@ -114,8 +114,15 @@
       document.querySelectorAll("[data-client]").forEach((el) => (el.textContent = j.client));
       if (j.prenom) document.querySelectorAll("[data-prenom]").forEach((el) => (el.textContent = " " + j.prenom));
       if (j.month) document.querySelectorAll("[data-month]").forEach((el) => (el.textContent = j.month));
+      fill(j.prefill);
       fill(j.answers);
       showInvite(j.invite_url);
+      if (q.get("bienvenue") === "1") {
+        const note = document.createElement("div");
+        note.className = "msg ok";
+        note.textContent = "Merci, votre paiement est bien reçu ! Bienvenue chez Agendo. Remplissez ce formulaire pour que nous lancions votre prospection : gardez ce lien, il vous permet de revenir plus tard.";
+        errBox.before(note);
+      }
       try { fill(JSON.parse(localStorage.getItem(key) || "null")); } catch (_) { /* rien */ }
       progress();
     })
