@@ -63,6 +63,26 @@
     }, 600);
   });
 
+  // Mode aperçu (?apercu) : pour voir le formulaire sans lien client. Rien n'est envoyé.
+  if (q.has("apercu")) {
+    const note = document.createElement("div");
+    note.className = "msg ok";
+    note.textContent = "Mode aperçu : vous voyez le formulaire tel que vos clients le verront. Rien n'est envoyé.";
+    errBox.before(note);
+    document.querySelectorAll("[data-client]").forEach((el) => (el.textContent = "Votre entreprise"));
+    document.querySelectorAll("[data-month]").forEach((el) => (el.textContent = "ce mois"));
+    progress();
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      form.classList.add("hidden");
+      $(".intro").classList.add("hidden");
+      $("#done").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, true);
+    return;
+  }
+
   if (!/^[0-9a-f]{32}$/.test(t) || (kind === "contenu" && !/^20\d\d-(0[1-9]|1[0-2])$/.test(m))) {
     form.classList.add("hidden");
     showError("Ce lien n'est pas complet. Utilisez le lien exact reçu de la part d'Agendo, ou écrivez-nous.");
