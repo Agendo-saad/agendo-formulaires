@@ -57,8 +57,8 @@ h1 em { font-style: normal; color: var(--navy-2); }
 .source { font: 400 12px var(--mono); color: var(--muted); margin: 0 0 30px; }
 
 /* Plan */
-.board { display: grid; grid-template-columns: 230px minmax(0, 1fr) 250px; gap: 18px; align-items: start; }
-.rail { display: grid; gap: 14px; }
+.board { display: block; }
+.around { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin-top: 16px; align-items: start; }
 .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; }
 .panel h3 { font: 500 11.5px var(--mono); letter-spacing: 1.1px; text-transform: uppercase; margin: 0 0 10px; color: var(--navy-2); }
 .panel ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
@@ -68,7 +68,7 @@ h1 em { font-style: normal; color: var(--navy-2); }
 .panel.dark h3 { color: #b9c9e6; }
 .panel.dark li::before { background: #8fb0ea; }
 
-.brain { background: var(--ink); color: #fff; border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 18px; align-items: center; margin-bottom: 16px; }
+.brain { background: var(--ink); color: #fff; border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 18px; align-items: center; margin-bottom: 16px; }
 .brain h2 { font: 800 21px/1.1 var(--display); margin: 0; }
 .brain p { margin: 0; color: #c3cbd9; font-size: 13.5px; }
 .brain .files { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
@@ -76,7 +76,7 @@ h1 em { font-style: normal; color: var(--navy-2); }
 
 .chain { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; position: relative; }
 .step { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 13px 13px; display: flex; flex-direction: column; gap: 8px; position: relative; min-width: 0; }
-.step .n { font: 500 11.5px var(--mono); color: var(--muted); display: flex; justify-content: space-between; }
+.step .n { font: 500 11.5px var(--mono); color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2px 8px; }
 .step h4 { font: 700 16.5px/1.15 var(--display); margin: 0; color: var(--navy); }
 .step p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.4; }
 .step ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 5px; }
@@ -130,18 +130,18 @@ footer { color: var(--muted); font: 400 12px var(--mono); padding-block: 10px 40
 
 /* Écrans moyens : chaîne sur 3 colonnes, rails sous le plan */
 @media (max-width: 1180px) {
-  .board { grid-template-columns: minmax(0, 1fr); }
-  .rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .around { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .chain { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .step:nth-child(3)::after, .step:nth-child(3) .flow { display: none; }
-  .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
   .intro, .live, .human { grid-template-columns: minmax(0, 1fr); }
-  .rail { grid-template-columns: minmax(0, 1fr); }
+  .around { grid-template-columns: minmax(0, 1fr); }
   .chain { grid-template-columns: minmax(0, 1fr); }
   .step::after, .flow { display: none !important; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:last-child { grid-column: 1 / -1; }
+  .kpi b { font-size: 28px; }
   .brain { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -177,26 +177,6 @@ footer { color: var(--muted); font: 400 12px var(--mono); padding-block: 10px 40
   <p class="source" id="source">Données : robot Agendo, tous comptes gérés confondus. Aucun nom de client ni de prospect n'est affiché.</p>
 
   <section class="board" aria-label="Plan du système">
-    <aside class="rail">
-      <div class="panel">
-        <h3>Ce que vous nous donnez · une fois</h3>
-        <ul>
-          <li>Votre cible : postes, secteurs, taille d'entreprise, régions</li>
-          <li>Votre offre, vos prix, vos études de cas, ce qu'il ne faut jamais dire</li>
-          <li>Votre lien de réservation (Calendly ou autre)</li>
-          <li>La connexion de votre LinkedIn : vous seul tapez votre mot de passe</li>
-        </ul>
-      </div>
-      <div class="panel dark">
-        <h3>Ce que vous recevez</h3>
-        <ul>
-          <li>Des rendez-vous avec des dirigeants intéressés, directement dans votre agenda</li>
-          <li>8 posts LinkedIn par mois, prêts à publier</li>
-          <li>Un rapport chaque mois : chiffres, tests, ce qui change</li>
-        </ul>
-      </div>
-    </aside>
-
     <div>
       <div class="brain">
         <h2>Le cerveau</h2>
@@ -289,7 +269,7 @@ footer { color: var(--muted); font: 400 12px var(--mono); padding-block: 10px 40
             <li>Les intéressés qui n'ont pas réservé sont relancés</li>
           </ul>
           <div class="stat"><b data-k="booked">–</b><span>rendez-vous obtenus</span></div>
-          <div class="state" data-last="sent"><i></i><span>…</span></div>
+          <div class="state" data-last="booked"><i></i><span>…</span></div>
           <div class="tools"><span class="tool">Votre agenda</span></div>
         </article>
       </div>
@@ -301,7 +281,26 @@ footer { color: var(--muted); font: 400 12px var(--mono); padding-block: 10px 40
       </div>
     </div>
 
-    <aside class="rail">
+  </section>
+
+  <section class="around" aria-label="Autour de la machine">
+      <div class="panel">
+        <h3>Ce que vous nous donnez · une fois</h3>
+        <ul>
+          <li>Votre cible : postes, secteurs, taille d'entreprise, régions</li>
+          <li>Votre offre, vos prix, vos études de cas, ce qu'il ne faut jamais dire</li>
+          <li>Votre lien de réservation (Calendly ou autre)</li>
+          <li>La connexion de votre LinkedIn : vous seul tapez votre mot de passe</li>
+        </ul>
+      </div>
+      <div class="panel dark">
+        <h3>Ce que vous recevez</h3>
+        <ul>
+          <li>Des rendez-vous avec des dirigeants intéressés, directement dans votre agenda</li>
+          <li>8 posts LinkedIn par mois, prêts à publier</li>
+          <li>Un rapport chaque mois : chiffres, tests, ce qui change</li>
+        </ul>
+      </div>
       <div class="panel">
         <h3>Garde-fous de votre compte</h3>
         <ul>
@@ -329,7 +328,6 @@ footer { color: var(--muted); font: 400 12px var(--mono); padding-block: 10px 40
           <li>Textes de profil proposés pour plus d'acceptations</li>
         </ul>
       </div>
-    </aside>
   </section>
 
   <section class="live" aria-label="En ce moment">
@@ -390,7 +388,7 @@ footer { color: var(--muted); font: 400 12px var(--mono); padding-block: 10px 40
       setText(el, d.replies.booked ? nf.format(d.replies.booked) + " rendez-vous obtenus" : "lues et traitées en quelques minutes");
     });
 
-    var waitText = { search: "en attente", analyse: "en attente", campaign: "démarre au 1er envoi", reply: "en attente de la 1re réponse", sent: "en attente du 1er rendez-vous" };
+    var waitText = { search: "en attente", analyse: "en attente", campaign: "démarre au 1er envoi", reply: "en attente de la 1re réponse", booked: "en attente du 1er rendez-vous" };
     document.querySelectorAll("[data-last]").forEach(function (el) {
       var key = el.getAttribute("data-last"), t = d.last[key], a = ago(t);
       var recent = t && (Date.now() - new Date(t).getTime()) < 3 * 86400000;
@@ -450,7 +448,8 @@ footer { color: var(--muted); font: 400 12px var(--mono); padding-block: 10px 40
     setText(document.getElementById("paris"), paris.charAt(0).toUpperCase() + paris.slice(1));
     var wd = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Paris", weekday: "short" }).format(now);
     var weekend = wd === "Sat" || wd === "Sun";
-    setText(document.getElementById("sendState"), weekend ? "Pause week-end" : "Jour ouvré");
+    var h = Number(new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Paris", hour: "2-digit", hour12: false }).format(now));
+    setText(document.getElementById("sendState"), weekend ? "Pause week-end" : (h >= 9 && h < 18) ? "En cours" : "Reprend à 9 h");
 
     var pulse = document.getElementById("pulse");
     pulse.classList.toggle("off", failed || !data);
