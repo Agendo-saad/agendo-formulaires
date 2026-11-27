@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Le système Agendo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Plan de salle des machines : une chaîne de 6 postes de gauche à droite, les garde-fous autour, le direct en dessous. */
+:root {
+  --paper: #eef1f5;
+  --card: #ffffff;
+  --ink: #141c2b;
+  --muted: #5a6476;
+  --line: #d5dbe4;
+  --navy: #1f3864;      /* couleur Agendo */
+  --navy-2: #2c4f8a;
+  --sky: #dfe7f4;
+  --live: #1f8a4c;      /* état : en marche */
+  --wait: #a86a12;      /* état : en attente */
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --r: 14px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--body); }
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
+
+/* Bandeau */
+.top { background: var(--navy); color: #fff; padding-top: env(safe-area-inset-top, 0px); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-block: 14px; flex-wrap: wrap; }
+.brand { font: 800 22px/1 var(--display); letter-spacing: .2px; }
+.brand small { font: 400 13px var(--mono); opacity: .75; margin-left: 10px; letter-spacing: .4px; }
+.pulse { display: inline-flex; align-items: center; gap: 9px; font: 500 13px var(--mono); background: rgba(255,255,255,.1); padding: 6px 12px; border-radius: 99px; }
+.pulse i { width: 9px; height: 9px; border-radius: 50%; background: #45d483; box-shadow: 0 0 0 0 rgba(69,212,131,.7); animation: ping 2s infinite; }
+.pulse.off i { background: #e0a43a; animation: none; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(69,212,131,.6); } 70% { box-shadow: 0 0 0 9px rgba(69,212,131,0); } 100% { box-shadow: 0 0 0 0 rgba(69,212,131,0); } }
+
+/* Titre */
+.intro { padding-block: 34px 10px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; align-items: end; }
+h1 { font: 800 clamp(30px, 4.2vw, 50px)/1.04 var(--display); margin: 0; letter-spacing: -.5px; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--navy-2); }
+.intro p { margin: 0; color: var(--muted); font-size: 16px; max-width: 54ch; }
+.eyebrow { font: 500 12px var(--mono); letter-spacing: 1.2px; text-transform: uppercase; color: var(--navy-2); margin: 0 0 10px; }
+
+/* Compteurs */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-block: 26px 8px; }
+.kpi { background: var(--card); padding: 16px 18px; min-width: 0; }
+.kpi b { display: block; font: 800 34px/1.05 var(--display); font-variant-numeric: tabular-nums; color: var(--navy); }
+.kpi span { display: block; font-size: 13px; color: var(--muted); margin-top: 4px; }
+.kpi small { display: block; font: 400 11.5px var(--mono); color: var(--live); margin-top: 6px; }
+.source { font: 400 12px var(--mono); color: var(--muted); margin: 0 0 30px; }
+
+/* Plan */
+.board { display: grid; grid-template-columns: 230px minmax(0, 1fr) 250px; gap: 18px; align-items: start; }
+.rail { display: grid; gap: 14px; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; }
+.panel h3 { font: 500 11.5px var(--mono); letter-spacing: 1.1px; text-transform: uppercase; margin: 0 0 10px; color: var(--navy-2); }
+.panel ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.panel li { font-size: 13.5px; line-height: 1.4; padding-left: 16px; position: relative; }
+.panel li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 6px; height: 6px; border-radius: 2px; background: var(--navy-2); }
+.panel.dark { background: var(--navy); color: #fff; border-color: var(--navy); }
+.panel.dark h3 { color: #b9c9e6; }
+.panel.dark li::before { background: #8fb0ea; }
+
+.brain { background: var(--ink); color: #fff; border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 18px; align-items: center; margin-bottom: 16px; }
+.brain h2 { font: 800 21px/1.1 var(--display); margin: 0; }
+.brain p { margin: 0; color: #c3cbd9; font-size: 13.5px; }
+.brain .files { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.brain .files span { font: 400 12px var(--mono); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); padding: 3px 9px; border-radius: 6px; }
+
+.chain { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; position: relative; }
+.step { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 13px 13px; display: flex; flex-direction: column; gap: 8px; position: relative; min-width: 0; }
+.step .n { font: 500 11.5px var(--mono); color: var(--muted); display: flex; justify-content: space-between; }
+.step h4 { font: 700 16.5px/1.15 var(--display); margin: 0; color: var(--navy); }
+.step p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.4; }
+.step ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 5px; }
+.step li { font-size: 12.5px; line-height: 1.35; padding-left: 12px; position: relative; }
+.step li::before { content: "›"; position: absolute; left: 0; color: var(--navy-2); font-weight: 600; }
+.tools { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; padding-top: 4px; }
+.tool { font: 500 11px var(--mono); padding: 2px 7px; border-radius: 5px; background: var(--sky); color: var(--navy); white-space: nowrap; }
+.stat { border-top: 1px dashed var(--line); padding-top: 9px; display: grid; gap: 2px; }
+.stat b { font: 800 22px/1 var(--display); color: var(--ink); font-variant-numeric: tabular-nums; }
+.stat span { font-size: 11.5px; color: var(--muted); }
+.state { font: 400 11px var(--mono); display: flex; align-items: center; gap: 6px; color: var(--muted); }
+.state i { width: 7px; height: 7px; border-radius: 50%; background: var(--wait); flex: none; }
+.state.on { color: var(--live); }
+.state.on i { background: var(--live); }
+
+/* Liaisons animées entre les postes */
+.step:not(:last-child)::after { content: ""; position: absolute; right: -14px; top: 38px; width: 14px; height: 2px; background: var(--navy-2); }
+.flow { position: absolute; top: 33px; right: -14px; width: 14px; height: 12px; overflow: hidden; }
+.flow i { position: absolute; top: 3px; left: -6px; width: 6px; height: 6px; border-radius: 50%; background: var(--navy-2); animation: run 1.6s linear infinite; }
+@keyframes run { to { left: 16px; } }
+
+.human { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+.who { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; }
+.who h5 { margin: 0 0 6px; font: 700 15px var(--display); color: var(--navy); }
+.who p { margin: 0; font-size: 13px; color: var(--muted); }
+.who b { color: var(--ink); font-weight: 600; }
+
+/* Direct */
+.live { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 18px; margin-block: 34px 18px; }
+.live h2 { font: 800 22px var(--display); margin: 0 0 4px; }
+.live .sub { margin: 0 0 14px; color: var(--muted); font-size: 13.5px; }
+.feed { display: grid; gap: 0; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: 0; }
+.row .role { font-weight: 600; font-size: 14px; overflow-wrap: anywhere; }
+.row .ind { font-size: 12.5px; color: var(--muted); grid-column: 1; }
+.row .tag { grid-row: 1 / span 2; grid-column: 2; align-self: center; font: 500 11.5px var(--mono); padding: 4px 9px; border-radius: 99px; white-space: nowrap; }
+.tag.ok { background: #dcf1e4; color: #17663a; }
+.tag.no { background: #eceff3; color: #5a6476; }
+.tag.mid { background: #f6ead6; color: #7d4f0c; }
+.empty { color: var(--muted); font-size: 13.5px; padding: 12px 0; }
+.chart svg { width: 100%; height: auto; display: block; }
+.legend { display: flex; gap: 16px; font: 400 12px var(--mono); color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.clock { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.clock div { background: var(--paper); border-radius: 10px; padding: 10px 12px; }
+.clock b { display: block; font: 600 18px var(--display); font-variant-numeric: tabular-nums; }
+.clock span { font-size: 12px; color: var(--muted); }
+
+footer { color: var(--muted); font: 400 12px var(--mono); padding-block: 10px 40px; }
+
+/* Écrans moyens : chaîne sur 3 colonnes, rails sous le plan */
+@media (max-width: 1180px) {
+  .board { grid-template-columns: minmax(0, 1fr); }
+  .rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chain { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .step:nth-child(3)::after, .step:nth-child(3) .flow { display: none; }
+  .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .intro, .live, .human { grid-template-columns: minmax(0, 1fr); }
+  .rail { grid-template-columns: minmax(0, 1fr); }
+  .chain { grid-template-columns: minmax(0, 1fr); }
+  .step::after, .flow { display: none !important; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brain { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse i, .flow i { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Agendo<small>LE SYSTÈME EN DIRECT</small></div>
+    <div class="pulse" id="pulse"><i></i><span id="pulseText">Connexion au robot…</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <div>
+      <p class="eyebrow">Prospection LinkedIn pour dirigeants B2B</p>
+      <h1>De la recherche du bon dirigeant <em>au rendez-vous dans votre agenda.</em></h1>
+    </div>
+    <p>Voici exactement ce qui tourne pour chacun de nos clients, chaque jour. Les chiffres de cette page viennent directement de notre robot et se mettent à jour tout seuls.</p>
+  </section>
+
+  <section class="kpis" aria-label="Chiffres en direct">
+    <div class="kpi"><b data-k="found">–</b><span>profils de dirigeants trouvés</span><small data-k7="found_7d"></small></div>
+    <div class="kpi"><b data-k="analysed">–</b><span>profils lus et notés par l'IA</span><small data-k7="analysed_7d"></small></div>
+    <div class="kpi"><b data-k="qualified">–</b><span>retenus comme vraiment dans la cible</span><small data-pct></small></div>
+    <div class="kpi"><b data-k="sent">–</b><span>invitations personnalisées envoyées</span><small>60 derniers jours</small></div>
+    <div class="kpi"><b data-k="handled">–</b><span>réponses de prospects traitées</span><small data-booked></small></div>
+  </section>
+  <p class="source" id="source">Données : robot Agendo, tous comptes gérés confondus. Aucun nom de client ni de prospect n'est affiché.</p>
+
+  <section class="board" aria-label="Plan du système">
+    <aside class="rail">
+      <div class="panel">
+        <h3>Ce que vous nous donnez · une fois</h3>
+        <ul>
+          <li>Votre cible : postes, secteurs, taille d'entreprise, régions</li>
+          <li>Votre offre, vos prix, vos études de cas, ce qu'il ne faut jamais dire</li>
+          <li>Votre lien de réservation (Calendly ou autre)</li>
+          <li>La connexion de votre LinkedIn : vous seul tapez votre mot de passe</li>
+        </ul>
+      </div>
+      <div class="panel dark">
+        <h3>Ce que vous recevez</h3>
+        <ul>
+          <li>Des rendez-vous avec des dirigeants intéressés, directement dans votre agenda</li>
+          <li>8 posts LinkedIn par mois, prêts à publier</li>
+          <li>Un rapport chaque mois : chiffres, tests, ce qui change</li>
+        </ul>
+      </div>
+    </aside>
+
+    <div>
+      <div class="brain">
+        <h2>Le cerveau</h2>
+        <p>Une IA qui connaît votre entreprise par cœur. Chaque profil, chaque message et chaque réponse passe par votre fiche avant de partir.</p>
+        <div class="files">
+          <span>/votre-cible</span><span>/votre-offre</span><span>/vos-études-de-cas</span><span>/objections</span><span>/ton-et-interdits</span><span>/ne-plus-contacter</span><span>/leçons-de-votre-secteur</span>
+        </div>
+      </div>
+
+      <div class="chain">
+        <article class="step">
+          <div class="n"><span>ÉTAPE 1</span><span>chaque jour</span></div>
+          <h4>Recherche</h4>
+          <p>Nous trouvons les dirigeants qui correspondent à votre cible.</p>
+          <ul>
+            <li>Filtres Sales Navigator : poste, secteur, taille, France</li>
+            <li>Petites doses chaque jour, 10 jours d'avance en réserve</li>
+          </ul>
+          <div class="stat"><b data-k="found">–</b><span>profils trouvés</span></div>
+          <div class="state" data-last="search"><i></i><span>…</span></div>
+          <div class="tools"><span class="tool">LinkedIn Sales Navigator</span></div>
+          <div class="flow"><i></i></div>
+        </article>
+
+        <article class="step">
+          <div class="n"><span>ÉTAPE 2</span><span>par profil</span></div>
+          <h4>Tri par l'IA</h4>
+          <p>Chaque profil est lu et noté de 0 à 100.</p>
+          <ul>
+            <li>Comparé à votre client idéal</li>
+            <li>Actif sur LinkedIn ces dernières semaines ?</li>
+            <li>Profils hors cible et liste « ne plus contacter » retirés</li>
+          </ul>
+          <div class="stat"><b data-k="qualified">–</b><span>retenus sur <span data-k="analysed">–</span> analysés</span></div>
+          <div class="state" data-last="analyse"><i></i><span>…</span></div>
+          <div class="tools"><span class="tool">Claude (IA)</span></div>
+          <div class="flow"><i></i></div>
+        </article>
+
+        <article class="step">
+          <div class="n"><span>ÉTAPE 3</span><span>lun → ven</span></div>
+          <h4>Invitation</h4>
+          <p>Une invitation envoyée depuis votre propre compte.</p>
+          <ul>
+            <li>20 par jour au départ, +1 par jour ouvré jusqu'à 25</li>
+            <li>Heures de bureau de Paris, jamais le week-end</li>
+            <li>Environ 500 par mois</li>
+          </ul>
+          <div class="stat"><b data-k="sent">–</b><span>invitations envoyées</span></div>
+          <div class="state" data-last="campaign"><i></i><span>…</span></div>
+          <div class="tools"><span class="tool">HeyReach</span></div>
+          <div class="flow"><i></i></div>
+        </article>
+
+        <article class="step">
+          <div class="n"><span>ÉTAPE 4</span><span>après acceptation</span></div>
+          <h4>Messages</h4>
+          <p>Une courte séquence, écrite comme vous écririez.</p>
+          <ul>
+            <li>Un premier message, puis des relances espacées</li>
+            <li>Deux versions testées en même temps, la meilleure reste</li>
+          </ul>
+          <div class="stat"><b data-k="accepted">–</b><span>invitations acceptées</span></div>
+          <div class="state" data-last="campaign"><i></i><span>…</span></div>
+          <div class="tools"><span class="tool">HeyReach</span><span class="tool">Claude (IA)</span></div>
+          <div class="flow"><i></i></div>
+        </article>
+
+        <article class="step">
+          <div class="n"><span>ÉTAPE 5</span><span>en quelques minutes</span></div>
+          <h4>Réponses</h4>
+          <p>Chaque réponse est lue, classée et traitée.</p>
+          <ul>
+            <li>L'IA rédige la réponse à partir de votre fiche</li>
+            <li>Une 2<sup>e</sup> IA relit : faits, ton, règles</li>
+            <li>Prix, rendez-vous, plainte : validé par un humain</li>
+          </ul>
+          <div class="stat"><b data-k="handled">–</b><span>conversations traitées</span></div>
+          <div class="state" data-last="reply"><i></i><span>…</span></div>
+          <div class="tools"><span class="tool">Claude (IA)</span><span class="tool">Slack</span></div>
+          <div class="flow"><i></i></div>
+        </article>
+
+        <article class="step">
+          <div class="n"><span>ÉTAPE 6</span><span>le but</span></div>
+          <h4>Rendez-vous</h4>
+          <p>Le prospect réserve lui-même dans votre agenda.</p>
+          <ul>
+            <li>Votre lien de réservation, avec vos questions de qualification</li>
+            <li>Les intéressés qui n'ont pas réservé sont relancés</li>
+          </ul>
+          <div class="stat"><b data-k="booked">–</b><span>rendez-vous obtenus</span></div>
+          <div class="state" data-last="sent"><i></i><span>…</span></div>
+          <div class="tools"><span class="tool">Votre agenda</span></div>
+        </article>
+      </div>
+
+      <div class="human">
+        <div class="who"><h5>Vous</h5><p>Un formulaire au départ, la connexion de votre LinkedIn, puis <b>vous recevez les rendez-vous</b>. Environ 10 minutes en tout.</p></div>
+        <div class="who"><h5>Votre chargé de compte</h5><p>Valide depuis son téléphone <b>toutes les réponses sensibles</b> et relit chaque semaine des conversations au hasard.</p></div>
+        <div class="who"><h5>Le robot</h5><p>Tout le reste, <b>24 h sur 24</b> : recherche, tri, envois, suivi, alertes, rapports.</p></div>
+      </div>
+    </div>
+
+    <aside class="rail">
+      <div class="panel">
+        <h3>Garde-fous de votre compte</h3>
+        <ul>
+          <li>Limites quotidiennes sous les seuils de LinkedIn</li>
+          <li>Montée progressive les premières semaines</li>
+          <li>Pause automatique si le taux d'acceptation baisse</li>
+          <li>Vérification toutes les heures : aucune réponse oubliée</li>
+          <li>Liste « ne plus contacter » respectée partout</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Amélioration continue</h3>
+        <ul>
+          <li>Chaque lundi : bilan de santé et prévision de rendez-vous</li>
+          <li>Tests de messages enchaînés : le gagnant reste</li>
+          <li>Nouveaux segments quand la cible s'épuise</li>
+          <li>Ce qui marche dans votre secteur sert au client suivant</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Visibilité</h3>
+        <ul>
+          <li>8 posts par mois écrits à partir de vos idées</li>
+          <li>Envoyés le mardi et le jeudi, prêts à publier</li>
+          <li>Textes de profil proposés pour plus d'acceptations</li>
+        </ul>
+      </div>
+    </aside>
+  </section>
+
+  <section class="live" aria-label="En ce moment">
+    <div class="panel">
+      <h2>Derniers profils analysés</h2>
+      <p class="sub">Le poste et le secteur seulement. Les noms et les entreprises restent confidentiels.</p>
+      <div class="feed" id="feed"><div class="empty">Chargement…</div></div>
+    </div>
+    <div class="panel">
+      <h2>Activité des 14 derniers jours</h2>
+      <p class="sub">Profils trouvés et invitations envoyées, jour par jour.</p>
+      <div class="chart" id="chart"></div>
+      <div class="legend"><span><i style="background:var(--sky);border:1px solid var(--navy-2)"></i>profils trouvés</span><span><i style="background:var(--navy)"></i>invitations envoyées</span></div>
+      <div class="clock">
+        <div><b id="paris">–</b><span>heure à Paris</span></div>
+        <div><b id="sendState">–</b><span>envoi des invitations</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Agendo · page mise à jour automatiquement toutes les minutes · <span id="stamp">–</span></footer>
+</main>
+
+<script>
+(function () {
+  var API = "https://vukexgjesgtoweahbgse.supabase.co/functions/v1/vitrine";
+  var data = null, fetchedAt = 0, failed = false;
+  var nf = new Intl.NumberFormat("fr-FR");
+  var rtf = new Intl.RelativeTimeFormat("fr", { numeric: "auto" });
+
+  function ago(iso) {
+    if (!iso) return null;
+    var s = (Date.now() - new Date(iso).getTime()) / 1000;
+    if (s < 60) return "à l'instant";
+    if (s < 3600) return rtf.format(-Math.round(s / 60), "minute");
+    if (s < 86400) return rtf.format(-Math.round(s / 3600), "hour");
+    return rtf.format(-Math.round(s / 86400), "day");
+  }
+  function setText(el, v) { el.textContent = v; }
+
+  function render() {
+    if (!data) return;
+    var d = data, vals = {
+      found: d.prospects.found, analysed: d.prospects.analysed, qualified: d.prospects.qualified,
+      sent: d.linkedin.sent, accepted: d.linkedin.accepted, handled: d.replies.handled, booked: d.replies.booked
+    };
+    document.querySelectorAll("[data-k]").forEach(function (el) {
+      var v = vals[el.getAttribute("data-k")];
+      setText(el, v == null ? "–" : nf.format(v));
+    });
+    document.querySelectorAll("[data-k7]").forEach(function (el) {
+      var v = d.prospects[el.getAttribute("data-k7")];
+      setText(el, v ? "+" + nf.format(v) + " cette semaine" : "");
+    });
+    var pct = d.prospects.analysed ? Math.round(d.prospects.qualified / d.prospects.analysed * 100) : null;
+    document.querySelectorAll("[data-pct]").forEach(function (el) { setText(el, pct == null ? "" : pct + " % des profils analysés"); });
+    document.querySelectorAll("[data-booked]").forEach(function (el) {
+      setText(el, d.replies.booked ? nf.format(d.replies.booked) + " rendez-vous obtenus" : "lues et traitées en quelques minutes");
+    });
+
+    var waitText = { search: "en attente", analyse: "en attente", campaign: "démarre au 1er envoi", reply: "en attente de la 1re réponse", sent: "en attente du 1er rendez-vous" };
+    document.querySelectorAll("[data-last]").forEach(function (el) {
+      var key = el.getAttribute("data-last"), t = d.last[key], a = ago(t);
+      var recent = t && (Date.now() - new Date(t).getTime()) < 3 * 86400000;
+      el.classList.toggle("on", !!recent);
+      setText(el.querySelector("span"), a ? "Dernière action " + a : waitText[key]);
+    });
+
+    var feed = document.getElementById("feed");
+    feed.textContent = "";
+    if (!d.feed || !d.feed.length) {
+      var e = document.createElement("div"); e.className = "empty"; e.textContent = "Aucun profil analysé pour l'instant."; feed.appendChild(e);
+    } else d.feed.forEach(function (p) {
+      var row = document.createElement("div"); row.className = "row";
+      var r = document.createElement("div"); r.className = "role"; r.textContent = p.role || "Dirigeant";
+      var i = document.createElement("div"); i.className = "ind";
+      i.textContent = [p.industry, p.score != null ? "note " + p.score + "/100" : null, ago(p.at)].filter(Boolean).join(" · ");
+      var t = document.createElement("span");
+      t.className = "tag " + (p.verdict === "qualifié" ? "ok" : p.verdict === "hors cible" ? "no" : "mid");
+      t.textContent = p.verdict;
+      row.appendChild(r); row.appendChild(t); row.appendChild(i);
+      feed.appendChild(row);
+    });
+
+    drawChart(d.days || []);
+  }
+
+  function drawChart(days) {
+    var W = 560, H = 190, padL = 30, padB = 24, padT = 10, n = days.length || 1;
+    var max = 1;
+    days.forEach(function (x) { max = Math.max(max, x.found, x.sent); });
+    var step = Math.pow(10, Math.floor(Math.log10(max)));
+    var top = Math.ceil(max / step) * step;
+    var cw = (W - padL) / n, bw = Math.max(4, cw * 0.32);
+    var y = function (v) { return padT + (H - padT - padB) * (1 - v / top); };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Activité des 14 derniers jours">';
+    [0, top / 2, top].forEach(function (g) {
+      s += '<line x1="' + padL + '" x2="' + W + '" y1="' + y(g) + '" y2="' + y(g) + '" stroke="#d5dbe4" stroke-width="1"/>';
+      s += '<text x="' + (padL - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#5a6476">' + Math.round(g) + '</text>';
+    });
+    days.forEach(function (x, k) {
+      var cx = padL + cw * k + cw / 2;
+      var hf = y(0) - y(x.found), hs = y(0) - y(x.sent);
+      s += '<rect x="' + (cx - bw - 1) + '" y="' + y(x.found) + '" width="' + bw + '" height="' + hf + '" rx="2" fill="#dfe7f4" stroke="#2c4f8a" stroke-width="1"/>';
+      s += '<rect x="' + (cx + 1) + '" y="' + y(x.sent) + '" width="' + bw + '" height="' + hs + '" rx="2" fill="#1f3864"/>';
+      if (k % 2 === 1 || k === n - 1) {
+        var dd = new Date(x.day + "T12:00:00Z");
+        s += '<text x="' + cx + '" y="' + (H - 6) + '" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#5a6476">' + dd.getUTCDate() + '/' + (dd.getUTCMonth() + 1) + '</text>';
+      }
+    });
+    s += "</svg>";
+    document.getElementById("chart").innerHTML = s;
+  }
+
+  function tick() {
+    var now = new Date();
+    var paris = new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", weekday: "long", hour: "2-digit", minute: "2-digit" }).format(now);
+    setText(document.getElementById("paris"), paris.charAt(0).toUpperCase() + paris.slice(1));
+    var wd = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Paris", weekday: "short" }).format(now);
+    var weekend = wd === "Sat" || wd === "Sun";
+    setText(document.getElementById("sendState"), weekend ? "Pause week-end" : "Jour ouvré");
+
+    var pulse = document.getElementById("pulse");
+    pulse.classList.toggle("off", failed || !data);
+    if (data) {
+      var s = Math.round((Date.now() - fetchedAt) / 1000);
+      setText(document.getElementById("pulseText"), (failed ? "Robot injoignable · " : "Robot en marche · ") + "mis à jour il y a " + (s < 60 ? s + " s" : Math.round(s / 60) + " min"));
+      setText(document.getElementById("stamp"), "chiffres du " + new Date(data.updated_at).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }));
+    }
+    if (data) document.querySelectorAll("[data-last]").forEach(function (el) {
+      var t = data.last[el.getAttribute("data-last")]; if (t) setText(el.querySelector("span"), "Dernière action " + ago(t));
+    });
+  }
+
+  function load() {
+    fetch(API, { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (j) { if (j.error) throw new Error(j.error); data = j; fetchedAt = Date.now(); failed = false; render(); tick(); })
+      .catch(function () { failed = true; if (!data) setText(document.getElementById("pulseText"), "Robot injoignable pour le moment"); tick(); });
+  }
+
+  load();
+  setInterval(load, 60000);
+  setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>
