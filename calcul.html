@@ -91,6 +91,23 @@ h1 { font: 800 clamp(30px, 4.6vw, 52px)/1.05 var(--display); margin: 40px 0 10px
 .how ul { padding-left: 18px; margin: 8px 0 0; }
 .price { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; }
 .price input { width: 5.5em; font: 600 15px var(--body); padding: 4px 8px; border: 1px solid var(--line); border-radius: 8px; }
+
+/* Échelle des profits par client */
+.scale { margin-top: 14px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px 14px; }
+.scale h3 { margin: 0 0 26px; font: 700 15px var(--body); }
+.zones { display: grid; grid-template-columns: 1150fr 1550fr 2700fr; height: 16px; border-radius: 8px; overflow: hidden; }
+.zones i:nth-child(1) { background: #f0c9c1; }
+.zones i:nth-child(2) { background: #f1dfbd; }
+.zones i:nth-child(3) { background: #c9e8d5; }
+.marker { position: relative; height: 0; }
+.marker b { position: absolute; top: -10px; width: 4px; height: 36px; background: var(--ink); border-radius: 2px; transform: translateX(-2px); transition: left .3s; }
+.ticks { display: grid; grid-template-columns: 1150fr 1550fr 2700fr; font-size: 13px; color: var(--muted); margin-top: 8px; }
+.ticks span + span { border-left: 1px solid var(--line); padding-left: 6px; }
+.stay { margin-top: 14px; }
+.stay label { display: block; font: 600 15px var(--body); color: var(--ink); margin-bottom: 6px; }
+.money.small { max-width: 200px; }
+.hide { display: none; }
+@media (prefers-reduced-motion: reduce) { .marker b { transition: none; } }
 footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
 
 @media (max-width: 560px) { .fields { grid-template-columns: minmax(0, 1fr); } }
@@ -112,30 +129,54 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
 
 <main class="wrap">
   <h1>Est-ce rentable pour vous ?</h1>
-  <p class="lead">Quelques chiffres sur votre entreprise. On fait le calcul ensemble, avec des chiffres prudents.</p>
+  <p class="lead">Quelques chiffres sur votre entreprise. On fait le calcul ensemble, avec des estimations prudentes.</p>
 
   <div class="grid">
     <section class="card" aria-label="Vos chiffres">
       <div class="q">
-        <div class="label">Combien vous rapporte un client ?</div>
-        <p class="help">Vos chiffres moyens.</p>
-        <div class="fields">
-          <div class="field"><label for="sale">Prix d'une vente</label><div class="money"><input id="sale" type="text" inputmode="numeric" value="3 000"><span>€</span></div></div>
-          <div class="field"><label for="margin">Votre marge</label><div class="money"><input id="margin" type="text" inputmode="numeric" value="50"><span>%</span></div></div>
-          <div class="field"><label for="repeat">Achats par client</label><div class="money"><input id="repeat" type="text" inputmode="numeric" value="1"><span>×</span></div><small>1 si un client n'achète qu'une fois</small></div>
-        </div>
-        <div class="per">Un client vous rapporte net : <b id="valueOut">–</b></div>
+        <label for="price">Combien vous chargez par client ?</label>
+        <div class="money"><input id="price" type="text" inputmode="numeric" value="3 000"><span>€</span></div>
       </div>
 
       <div class="q">
-        <label for="close">Votre taux de closing</label>
-        <p class="help">Sur vos rendez-vous de vente, combien deviennent clients ?</p>
-        <div class="range"><input id="close" type="range" min="5" max="60" step="5" value="20"><output id="closeOut" for="close">20 %</output></div>
+        <div class="label" id="payLabel">Comment vos clients paient ?</div>
+        <div class="chips" data-group="pay" role="group" aria-labelledby="payLabel">
+          <button class="chip" type="button" data-v="unique">Paiement unique</button>
+          <button class="chip" type="button" data-v="versements">En plusieurs versements</button>
+          <button class="chip" type="button" data-v="mensuel">Chaque mois</button>
+        </div>
+        <div class="say" id="paySay"></div>
+        <div id="stayBox" class="hide stay">
+          <label for="stay">Vos clients restent combien de mois en moyenne ?</label>
+          <div class="money small"><input id="stay" type="text" inputmode="numeric" value="6"><span>mois</span></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label for="margin">Quelle marge vous gardez ?</label>
+        <p class="help">Ce qu'il vous reste une fois vos coûts payés.</p>
+        <div class="money small"><input id="margin" type="text" inputmode="numeric" value="50"><span>%</span></div>
+        <div class="per">Profit par client : <b id="profitOut">–</b></div>
+      </div>
+
+      <div class="q">
+        <label for="close">Sur 10 rendez-vous, combien vous en closez ?</label>
+        <div class="range"><input id="close" type="range" min="0.5" max="8" step="0.5" value="2"><output id="closeOut" for="close">2</output></div>
         <div class="say" id="closeSay"></div>
       </div>
 
       <div class="q">
-        <div class="label" id="monthsLabel">Sur combien de mois ?</div>
+        <div class="label" id="delayLabel">Entre le premier appel et la signature ?</div>
+        <div class="chips" data-group="delay" role="group" aria-labelledby="delayLabel">
+          <button class="chip" type="button" data-v="0">Moins d'une semaine</button>
+          <button class="chip" type="button" data-v="1">1 à 4 semaines</button>
+          <button class="chip" type="button" data-v="2">1 à 3 mois</button>
+          <button class="chip" type="button" data-v="3">Plus de 3 mois</button>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="label" id="monthsLabel">On regarde sur combien de mois ?</div>
         <div class="chips" data-group="months" role="group" aria-labelledby="monthsLabel">
           <button class="chip" type="button" data-v="3">3 mois</button>
           <button class="chip" type="button" data-v="6">6 mois</button>
@@ -156,29 +197,38 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
 
     <section class="answer" aria-live="polite" aria-label="Résultat">
       <div class="verdict" id="verdict">
-        <div class="tag" id="vTag">Rentable</div>
+        <div class="tag" id="vTag">–</div>
         <h2 id="vText">–</h2>
       </div>
+
+      <div class="scale" aria-hidden="true">
+        <h3>Profit par client</h3>
+        <div class="marker"><b id="mark"></b></div>
+        <div class="zones"><i></i><i></i><i></i></div>
+        <div class="ticks"><span>moins de 1 150 €</span><span>1 150 à 2 700 €</span><span>2 700 € et plus</span></div>
+      </div>
+
       <div class="nums">
         <div class="n"><b id="rdv">–</b><span>rendez-vous estimés</span></div>
-        <div class="n"><b id="clients">–</b><span>nouveaux clients estimés</span></div>
-        <div class="n"><b id="gain">–</b><span>ce que ça vous rapporte</span></div>
-        <div class="n"><b id="cost">–</b><span>ce que ça vous coûte</span></div>
+        <div class="n"><b id="clients">–</b><span id="clientsSay">nouveaux clients</span></div>
+        <div class="n"><b id="gain">–</b><span>profit de ces clients</span></div>
+        <div class="n"><b id="cost">–</b><span>coût d'Agendo</span></div>
         <div class="n big"><b id="net">–</b><span id="netSay">–</span></div>
       </div>
       <div class="bars" aria-hidden="true">
         <div class="bar"><span>Coût Agendo</span><div class="track"><div class="fill cost" id="barCost"></div></div></div>
-        <div class="bar"><span>Ce que vous gagnez</span><div class="track"><div class="fill gain" id="barGain"></div></div></div>
+        <div class="bar"><span>Votre profit</span><div class="track"><div class="fill gain" id="barGain"></div></div></div>
       </div>
       <details class="how">
         <summary>Comment on calcule</summary>
         <ul>
+          <li>Profit par client = prix × marge (× nombre de mois si vos clients paient chaque mois).</li>
           <li id="howRdv"></li>
-          <li>Un client rapporte : prix × marge × nombre d'achats.</li>
-          <li>Nouveaux clients = rendez-vous × votre taux de closing, arrondi vers le bas.</li>
+          <li>Un rendez-vous devient client après votre délai de signature : ceux qui signeraient après la période ne sont pas comptés.</li>
+          <li>Nouveaux clients arrondis vers le bas.</li>
           <li>Ce sont des estimations, pas une garantie : les résultats dépendent de votre cible et de votre offre.</li>
         </ul>
-        <label class="price">Prix Agendo par mois : <input id="price" type="text" inputmode="numeric" value="249"> €</label>
+        <label class="price">Prix Agendo par mois : <input id="agendo" type="text" inputmode="numeric" value="249"> €</label>
       </details>
     </section>
   </div>
@@ -188,60 +238,69 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
 
 <script>
 (function () {
-  // Rendez-vous par mois : mois 1, mois 2, puis chaque mois suivant.
+  var LOW = 1150, HIGH = 2700, GOOD_CLOSE = 3; // seuils de Saad ; « close bien » = 3 sur 10 ou plus
   var SCENES = {
     prudent: { m: [1, 2, 3], say: "1 le 1er mois, 2 le 2e, puis 3 par mois." },
     normal:  { m: [2, 4, 6], say: "2 le 1er mois, 4 le 2e, puis 6 par mois." }
   };
-  var state = { sale: 3000, margin: 50, repeat: 1, value: 1500, close: 20, months: 6, scene: "prudent", price: 249 };
+  var DELAY_SAY = ["moins d'une semaine", "1 à 4 semaines", "1 à 3 mois", "plus de 3 mois"];
+  var state = { price: 3000, pay: "unique", stay: 6, margin: 50, close: 2, delay: 1, months: 6, scene: "prudent", agendo: 249 };
   var fmt = new Intl.NumberFormat("fr-FR");
   var eur = function (v) { return fmt.format(Math.round(v)) + " €"; };
-  var num = function (s) { var v = parseInt(String(s).replace(/[^\d]/g, ""), 10); return isNaN(v) ? 0 : v; };
+  var num = function (s) { var v = parseFloat(String(s).replace(/\s/g, "").replace(",", ".").replace(/[^\d.]/g, "")); return isNaN(v) ? 0 : v; };
   var $ = function (id) { return document.getElementById(id); };
-
-  function rdvFor(scene, months) {
-    var m = SCENES[scene].m, t = 0;
-    for (var i = 0; i < months; i++) t += m[Math.min(i, m.length - 1)];
-    return t;
-  }
 
   function render() {
     var s = state;
-    s.value = Math.round(s.sale * Math.min(s.margin, 100) / 100 * Math.max(s.repeat, 1));
-    $("valueOut").textContent = eur(s.value);
-    var rdv = rdvFor(s.scene, s.months);
-    var clients = Math.floor(rdv * s.close / 100);
-    var gain = clients * s.value;
-    var cost = s.months * s.price;
+    var recurring = s.pay === "mensuel";
+    var profit = s.price * Math.min(s.margin, 100) / 100 * (recurring ? Math.max(s.stay, 1) : 1);
+    $("profitOut").textContent = eur(profit) + (recurring ? " (sur " + fmt.format(s.stay) + " mois)" : "");
+    $("stayBox").classList.toggle("hide", !recurring);
+    $("paySay").textContent = recurring ? "Le prix indiqué est par mois." : s.pay === "versements" ? "Indiquez le prix total : les versements retardent seulement l'encaissement." : "";
+
+    // Rendez-vous par mois, puis signature après le délai (dans la période seulement).
+    var m = SCENES[s.scene].m, rdv = 0, signable = 0;
+    for (var i = 1; i <= s.months; i++) {
+      var r = m[Math.min(i - 1, m.length - 1)];
+      rdv += r;
+      if (i + s.delay <= s.months) signable += r;
+    }
+    var clients = Math.floor(signable * s.close / 10);
+    var gain = clients * profit;
+    var cost = s.months * s.agendo;
     var net = gain - cost;
-    var payback = s.value > 0 ? s.value / s.price : 0;           // mois payés par 1 client
-    var needed = s.value > 0 ? Math.ceil(cost / s.value) : Infinity; // clients pour rembourser
 
     $("rdv").textContent = fmt.format(rdv);
     $("clients").textContent = fmt.format(clients);
+    $("clientsSay").textContent = "nouveaux clients signés en " + s.months + " mois";
     $("gain").textContent = eur(gain);
     $("cost").textContent = eur(cost);
     $("net").textContent = (net >= 0 ? "+" : "−") + eur(Math.abs(net));
     $("netSay").textContent = net >= 0
       ? "gagnés en " + s.months + " mois" + (cost > 0 ? ", soit " + fmt.format(Math.round(gain / cost * 10) / 10) + " € pour 1 € investi" : "")
-      : "en " + s.months + " mois avec ces chiffres prudents";
+      : "sur " + s.months + " mois avec ces estimations" + (s.delay >= 2 && s.months < 12 ? " (signature longue : regardez sur 12 mois)" : "");
 
     var v = $("verdict"), tag, text;
     v.classList.remove("mid", "bad");
-    if (s.value <= 0) {
-      tag = "À compléter"; text = "Indiquez combien vous rapporte un client."; v.classList.add("mid");
-    } else if (payback >= 3) {
-      tag = "Rentable";
-      text = "1 seul client vous rapporte " + eur(s.value) + " : il paie déjà " + fmt.format(Math.floor(payback)) + " mois d'Agendo.";
-    } else if (payback >= 1) {
-      tag = "À voir ensemble"; v.classList.add("mid");
-      text = "1 client paie " + (Math.floor(payback) > 1 ? fmt.format(Math.floor(payback)) + " mois" : "1 mois") + " d'Agendo. Il en faut " + needed + " en " + s.months + " mois pour être rentable.";
+    if (profit <= 0) {
+      tag = "À compléter"; v.classList.add("mid");
+      text = "Indiquez votre prix et votre marge.";
+    } else if (profit < LOW) {
+      tag = "Pas adapté pour l'instant"; v.classList.add("bad");
+      text = "Un client vous rapporte " + eur(profit) + " de profit. En dessous de 1 150 €, ce n'est pas assez rentable pour vous.";
+    } else if (profit < HIGH) {
+      var ok = recurring || s.close >= GOOD_CLOSE;
+      tag = ok ? "Ça peut passer" : "Risqué"; v.classList.add("mid");
+      text = ok
+        ? "Un client vous rapporte " + eur(profit) + ". C'est juste, mais " + (recurring ? "vos clients paient chaque mois" : "vous closez bien") + " : ça peut marcher."
+        : "Un client vous rapporte " + eur(profit) + ". Ça passe seulement si vous closez bien (3 sur 10 ou plus) ou si vos clients paient chaque mois.";
     } else {
-      tag = "Pas rentable pour l'instant"; v.classList.add("bad");
-      text = "Un client vous rapporte moins qu'un mois d'Agendo. Ce n'est pas le bon outil pour vous aujourd'hui.";
+      tag = "Client idéal";
+      text = "Un client vous rapporte " + eur(profit) + " : un seul client paie déjà " + fmt.format(Math.floor(profit / s.agendo)) + " mois d'Agendo.";
     }
     $("vTag").textContent = tag;
     $("vText").textContent = text;
+    $("mark").style.left = Math.min(99, Math.max(1, profit / 5400 * 100)) + "%";
 
     var max = Math.max(gain, cost, 1);
     $("barCost").style.width = Math.max(4, cost / max * 100) + "%";
@@ -249,17 +308,16 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
     $("barGain").style.width = (gain ? Math.max(4, gain / max * 100) : 0) + "%";
     $("barGain").textContent = gain ? eur(gain) : "";
 
-    $("closeOut").textContent = s.close + " %";
-    var on10 = s.close / 10;
-    $("closeSay").textContent = "Soit " + fmt.format(on10) + " client" + (on10 > 1 ? "s" : "") + " sur 10 rendez-vous";
+    $("closeOut").textContent = fmt.format(s.close);
+    $("closeSay").textContent = fmt.format(s.close) + " client" + (s.close > 1 ? "s" : "") + " sur 10 rendez-vous (" + fmt.format(s.close * 10) + " %)";
     $("sceneSay").textContent = SCENES[s.scene].say;
-    $("howRdv").textContent = "Rendez-vous : " + SCENES[s.scene].say;
+    $("howRdv").textContent = "Rendez-vous : " + SCENES[s.scene].say + " Délai de signature : " + DELAY_SAY[s.delay] + ".";
 
     document.querySelectorAll("[data-group]").forEach(function (g) {
       var key = g.getAttribute("data-group");
       g.querySelectorAll(".chip").forEach(function (c) {
         var cv = c.getAttribute("data-v");
-        c.setAttribute("aria-pressed", String(key === "scene" ? cv === s.scene : num(cv) === s[key]));
+        c.setAttribute("aria-pressed", String(typeof state[key] === "number" ? num(cv) === state[key] : cv === state[key]));
       });
     });
   }
@@ -269,16 +327,15 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
     g.addEventListener("click", function (e) {
       var c = e.target.closest(".chip"); if (!c) return;
       var cv = c.getAttribute("data-v");
-      state[key] = key === "scene" ? cv : num(cv);
+      state[key] = typeof state[key] === "number" ? num(cv) : cv;
       render();
     });
   });
-  ["sale", "margin", "repeat"].forEach(function (k) {
-    $(k).addEventListener("input", function () { state[k] = num(this.value); render(); });
+  ["price", "stay", "margin", "agendo"].forEach(function (k) {
+    $(k).addEventListener("input", function () { state[k] = num(this.value); if (k === "agendo" && !state.agendo) state.agendo = 249; render(); });
     $(k).addEventListener("blur", function () { this.value = fmt.format(state[k]); });
   });
   $("close").addEventListener("input", function () { state.close = num(this.value); render(); });
-  $("price").addEventListener("input", function () { state.price = num(this.value) || 249; render(); });
   render();
 })();
 </script>
