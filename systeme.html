@@ -449,7 +449,7 @@ footer { color: var(--muted); font: 400 12px var(--mono); padding-block: 10px 40
     var wd = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Paris", weekday: "short" }).format(now);
     var weekend = wd === "Sat" || wd === "Sun";
     var h = Number(new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Paris", hour: "2-digit", hour12: false }).format(now));
-    setText(document.getElementById("sendState"), weekend ? "Pause week-end" : (h >= 9 && h < 18) ? "En cours" : "Reprend à 9 h");
+    setText(document.getElementById("sendState"), weekend ? "Pause week-end" : (h >= 9 && h < 18) ? "En cours" : (wd === "Fri" && h >= 18) ? "Reprend lundi 9 h" : "Reprend à 9 h");
 
     var pulse = document.getElementById("pulse");
     pulse.classList.toggle("off", failed || !data);
