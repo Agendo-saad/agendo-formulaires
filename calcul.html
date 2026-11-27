@@ -247,7 +247,7 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
     normal:  { m: [2, 4, 6], say: "2 le 1er mois, 4 le 2e, puis 6 par mois." }
   };
   var DELAY_SAY = ["moins d'une semaine", "1 à 4 semaines", "1 à 3 mois", "plus de 3 mois"];
-  var state = { price: 3000, pay: "unique", stay: 6, margin: 50, close: 2, delay: 1, months: 3, scene: "prudent", agendo: 249 };
+  var state = { price: 3000, pay: "unique", stay: 6, margin: 50, close: 2, delay: 1, months: 6, scene: "prudent", agendo: 249 };
   var fmt = new Intl.NumberFormat("fr-FR");
   var eur = function (v) { return fmt.format(Math.round(v)) + " €"; };
   var num = function (s) { var v = parseFloat(String(s).replace(/\s/g, "").replace(",", ".").replace(/[^\d.]/g, "")); return isNaN(v) ? 0 : v; };
