@@ -191,8 +191,9 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
         <div class="label" id="sceneLabel">Combien de rendez-vous on vous obtient ?</div>
         <p class="help">On ne peut pas le savoir à l'avance. Choisissez une prévision : le début est plus lent, puis ça monte.</p>
         <div class="chips" data-group="scene" role="group" aria-labelledby="sceneLabel">
-          <button class="chip" type="button" data-v="prudent">Prévision prudente : 1, puis 2, puis 3 par mois</button>
-          <button class="chip" type="button" data-v="normal">Prévision normale : 2, puis 4, puis 6 par mois</button>
+          <button class="chip" type="button" data-v="prudent">Prévision difficile : 1, puis 2, puis 3 par mois</button>
+          <button class="chip" type="button" data-v="normal">Prévision normale : 2, puis 4, puis 5 par mois</button>
+          <button class="chip" type="button" data-v="top">Très bonne prévision : 3, puis 5, puis 7 par mois</button>
         </div>
         <div class="say" id="sceneSay"></div>
       </div>
@@ -244,7 +245,8 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
   var LOW = 1150, HIGH = 2700, GOOD_CLOSE = 3; // seuils de Saad ; « close bien » = 3 sur 10 ou plus
   var SCENES = {
     prudent: { m: [1, 2, 3], say: "1 le 1er mois, 2 le 2e, puis 3 par mois." },
-    normal:  { m: [2, 4, 6], say: "2 le 1er mois, 4 le 2e, puis 6 par mois." }
+    normal:  { m: [2, 4, 5], say: "2 le 1er mois, 4 le 2e, puis 5 par mois." },
+    top:     { m: [3, 5, 7], say: "3 le 1er mois, 5 le 2e, puis 7 par mois." }
   };
   var DELAY_SAY = ["moins d'une semaine", "1 à 4 semaines", "1 à 3 mois", "plus de 3 mois"];
   var state = { price: 3000, pay: "unique", stay: 6, margin: 50, close: 2, delay: 1, months: 6, scene: "prudent", agendo: 249 };
