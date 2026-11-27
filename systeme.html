@@ -93,18 +93,39 @@ section { margin-bottom: 56px; }
 .box li::before { content: ""; position: absolute; left: 0; top: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--sky); box-shadow: inset 0 0 0 5px var(--sky), inset 0 0 0 9px var(--navy-2); }
 .box.you { border: 2px solid var(--navy); }
 
+
+/* Progression mois par mois */
+.months-title { font: 800 22px/1.2 var(--display); margin: 34px 0 16px; }
+.months { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: end; }
+.m { background: rgba(255,255,255,.08); border-radius: 14px; padding: 18px; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.m .bar { height: 90px; display: flex; align-items: flex-end; margin-bottom: 12px; }
+.m .bar::before { content: ""; width: 100%; height: var(--h); background: #fff; border-radius: 8px 8px 3px 3px; opacity: .9; }
+.m b { font: 500 14px var(--body); color: #b9c7e2; }
+.m strong { font: 800 21px var(--display); }
+.m span { font-size: 15px; color: #dbe4f5; }
+
+/* Tout ce que vous recevez */
+.gets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.g { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; min-width: 0; }
+.g b { display: block; font: 800 19px/1.2 var(--display); color: var(--navy); margin-bottom: 6px; }
+.g span { font-size: 15px; color: var(--muted); }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+
 footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
 
 @media (max-width: 960px) {
   .steps, .funnel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .step:nth-child(2)::after, .step:nth-child(2) .flow { display: none; }
-  .three, .lab { grid-template-columns: minmax(0, 1fr); }
+  .three, .lab, .two { grid-template-columns: minmax(0, 1fr); }
+  .gets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 600px) {
   body { font-size: 16px; }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .step::after, .flow { display: none !important; }
   .example { padding: 24px 18px; }
+  .months, .gets { grid-template-columns: minmax(0, 1fr); }
+  .m .bar { height: 50px; }
   .ab div { flex-direction: column; align-items: flex-start; gap: 2px; }
 }
 @media (prefers-reduced-motion: reduce) { .pulse i, .flow i { animation: none; } }
@@ -159,12 +180,13 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
       <div class="legend"><span class="k">gardés</span><span>retirés</span></div>
     </div>
     <div class="box">
-      <h2>On teste, on garde ce qui marche</h2>
-      <p>On essaie toujours deux versions de message en même temps. La meilleure reste, l'autre est retirée, puis on teste une nouvelle idée. Pareil pour la cible.</p>
+      <h2>On teste plusieurs combinaisons en même temps</h2>
+      <p>Différentes cibles, différents messages. On regarde ce qui obtient le plus de réponses : on garde le meilleur, on retire le reste, et on teste une nouvelle idée.</p>
       <div class="ab">
-        <div class="win"><span>Message A</span><b>Gardé</b></div>
-        <div class="lose"><span>Message B</span><b>Retiré</b></div>
-        <div class="new"><span>Message C</span><b>Prochain test</b></div>
+        <div class="win"><span>Cible 1 + message A</span><b>Gardé</b></div>
+        <div class="lose"><span>Cible 1 + message B</span><b>Retiré</b></div>
+        <div class="win"><span>Cible 2 + message A</span><b>Gardé</b></div>
+        <div class="new"><span>Cible 2 + message C</span><b>En test</b></div>
       </div>
     </div>
   </section>
@@ -178,10 +200,31 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
       <div class="f"><b>≈ 30</b><span>conversations</span></div>
       <div class="f goal"><b>2 à 7</b><span>rendez-vous par mois</span></div>
     </div>
-    <p class="note">Environ 2 à 3 rendez-vous le premier mois. Ça monte ensuite, grâce aux tests et au tri. Ce sont des estimations, pas une garantie : les résultats dépendent de votre cible et de votre offre.</p>
+
+    <h3 class="months-title">Le début est plus lent, puis ça se stabilise</h3>
+    <div class="months">
+      <div class="m"><div class="bar" style="--h:38%"></div><b>Mois 1</b><strong>On apprend</strong><span>On teste les cibles et les messages. Environ 2 à 3 rendez-vous.</span></div>
+      <div class="m"><div class="bar" style="--h:66%"></div><b>Mois 2</b><strong>On ajuste</strong><span>On garde ce qui marche, on retire le reste. Les résultats montent.</span></div>
+      <div class="m"><div class="bar" style="--h:100%"></div><b>Mois 3 et après</b><strong>Plus stable</strong><span>Plus on a de données, plus les résultats sont réguliers. Jusqu'à 6 à 7 rendez-vous.</span></div>
+    </div>
+    <p class="note">Ce sont des estimations, pas une garantie : les résultats dépendent de votre cible et de votre offre.</p>
   </section>
 
-  <section class="three" aria-label="Ce qu'il faut savoir">
+  <section aria-label="Tout ce que vous recevez">
+    <h2>Tout ce que vous recevez chaque mois</h2>
+    <div class="gets">
+      <div class="g"><b>Des rendez-vous</b><span>Directement dans votre agenda</span></div>
+      <div class="g"><b>≈ 500 invitations</b><span>Personnalisées, envoyées depuis votre LinkedIn</span></div>
+      <div class="g"><b>Messages et relances</b><span>Écrits avec votre ton, envoyés pour vous</span></div>
+      <div class="g"><b>Chaque réponse traitée</b><span>Rapidement, même le soir et le week-end</span></div>
+      <div class="g"><b>8 posts LinkedIn</b><span>Écrits pour vous à partir de vos idées</span></div>
+      <div class="g"><b>Un profil plus convaincant</b><span>Des textes proposés pour votre profil LinkedIn</span></div>
+      <div class="g"><b>Un rapport chaque mois</b><span>Vos chiffres, les tests faits, ce qu'on change le mois suivant</span></div>
+      <div class="g"><b>Un suivi chaque semaine</b><span>On vérifie que tout avance et on corrige si besoin</span></div>
+    </div>
+  </section>
+
+  <section class="two" aria-label="Ce qu'il faut savoir">
     <div class="box you">
       <h2>Vous, vous faites seulement ça</h2>
       <ul>
@@ -196,13 +239,6 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px; }
         <li>On reste sous les limites de LinkedIn</li>
         <li>On démarre doucement, puis on augmente</li>
         <li>Les réponses sensibles sont vues par un être humain</li>
-      </ul>
-    </div>
-    <div class="box">
-      <h2>En plus</h2>
-      <ul>
-        <li>8 posts LinkedIn par mois, écrits pour vous</li>
-        <li>Un rapport simple chaque mois</li>
       </ul>
     </div>
   </section>
